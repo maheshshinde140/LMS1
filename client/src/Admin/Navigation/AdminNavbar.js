@@ -1,8 +1,14 @@
-
-import React from 'react';
-import { FaSearch, FaUserCircle } from 'react-icons/fa';
+import React from "react";
+import { FaSearch, FaUserCircle } from "react-icons/fa";
+import Cookie from "js-cookie";
 
 const AdminNavbar = () => {
+  const user = localStorage.getItem("persist:root");
+  console.log(user.split(",")[1].includes(true));
+
+  function logout() {
+    Cookie.remove("adminToken");
+  }
   return (
     <nav className="bg-white shadow p-4 flex justify-between">
       <div className="flex  ">
@@ -14,9 +20,16 @@ const AdminNavbar = () => {
         />
       </div>
 
-      <div className="flex items-center">
-        <FaUserCircle className="text-gray-600 mr-2" size={24} />
-        <span className="text-gray-600">Admin Name</span>
+      <div className="flex items-center gap-10">
+        <span className="flex">
+          <FaUserCircle className="text-gray-600 mr-2" size={24} />
+          <span className="text-gray-600">Admin Name</span>
+        </span>
+        <span>
+          {user.split(",")[1].includes(true) ? (
+            <button onClick={() =>  Cookie.remove("adminToken")}>Sign out</button>
+          ) : null}
+        </span>
       </div>
     </nav>
   );
