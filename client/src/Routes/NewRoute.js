@@ -24,12 +24,12 @@ function NewRoute() {
         <Route path={`/viewLecture`} element={<ViewLecture />} />
         <Route path={`/viewLecture/id`} element={<ViewLecture />} />
 
-        <Route element={<ProtectedRoutes />}>
+        {/* <Route element={<ProtectedRoutes />}>
           <Route path="/students" element={<ViewLecture />} />
         </Route>
         <Route element={<ProtectedAdminRoute />}>
           <Route path="/admin" element={<AdminRoute />} />
-        </Route>
+        </Route> */}
       </Routes>
     </div>
   );

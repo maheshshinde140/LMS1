@@ -16,10 +16,10 @@ function App() {
       <NewRoute />
       <StudentRoute />
       <TeacherRoutes />
-      <AdminRoute />
       <Routes>
-        <Route path="*" element={<Home />} />
+        <Route path="/admin" element={<AdminRoute />}/>
       </Routes>
+
     </div>
   );
 }
