@@ -16,6 +16,7 @@ function Courses() {
     adminEmail: "",
     coursePrice: 0,
 
+    courseThumbnail: "",
     courseStartDate: "",
     courseTeacher: [],
 
@@ -72,17 +73,17 @@ function Courses() {
         {courses.map((course) => (
           <div
             key={course._id}
-            className="bg-black text-white rounded-lg shadow-lg overflow-hidden"
+            className="bg-gray-700 text-white rounded-lg shadow-lg overflow-hidden shadow-gray-200"
           >
             <img
-              src={course.image}
+              src={course.courseThumbnail.private_url}
               alt={course.title}
               className="w-full h-70 object-cover"
             />
 
             <div className="p-5">
               <h2 className="text-2xl font-bold mt-4 mb-2">{course.courseName}</h2>
-              <p className="text-gray-400 mb-5">{course.courseDescription}</p>
+              
               <hr />
               <button className="text-cyan-400 mt-7 font-semibold text-xl ">
                 {course.courseTeacher.map((teacher) => {

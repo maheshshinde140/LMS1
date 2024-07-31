@@ -5,18 +5,35 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/User/userSlice";
 import axios from "axios";
+import { useMediaQuery } from '@mui/material';
+import Cookies from "js-cookie";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 function Navbar() {
+
+
+  
+  
+
+
+  const mediumDevice = useMediaQuery('(max-width: 768px)');
+
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuthenticated);
   const user = useSelector((state) => state.user.user);
   
   const isAdmin = user?.userType === "admin" ? true : false;
 
+  const login = document.cookie.split(';').find(c => c.trim().startsWith(`studentToken= || teacherToken=`))?.split('=')[1];
+
+  const cookie = Cookies.get(`StudentToken || TeacherToken `);
+
+  console.log("cookie => ", cookie);
+
+  console.log(window);
 
   const student = user === "studentType"; 
 
@@ -37,6 +54,7 @@ function Navbar() {
     dispatch(logout());
   };
 
+  
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -60,7 +78,7 @@ function Navbar() {
                   <p className="text-4xl font-bold text-white">Arohi Software</p>
                 </div>
 
-                <div className="hidden flex sm:ml-6 sm:block">
+                <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <Link
@@ -205,6 +223,8 @@ function Navbar() {
           </Disclosure.Panel>
         </>
       )}
+
+
     </Disclosure>
   );
 }

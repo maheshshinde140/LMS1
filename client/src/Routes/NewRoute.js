@@ -15,8 +15,10 @@ function NewRoute() {
   return (
     <div>
       <Routes>
+      
         <Route path="/courses" element={<Coursespage />} />
         <Route path="/overview/:courseCode" element={<Overview />} />
+        <Route path="/overview" element={<Overview />} />
 
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
@@ -24,12 +26,16 @@ function NewRoute() {
         <Route path={`/viewLecture`} element={<ViewLecture />} />
         <Route path={`/viewLecture/id`} element={<ViewLecture />} />
 
+        {/**** */}
         <Route element={<ProtectedRoutes />}>
           <Route path="/students" element={<ViewLecture />} />
         </Route>
+
         <Route element={<ProtectedAdminRoute />}>
           <Route path="/admin" element={<AdminRoute />} />
+          
         </Route>
+        <Route path="/admin" element={<AdminRoute />} />
       </Routes>
     </div>
   );
