@@ -6,6 +6,7 @@ import TeacherRoutes from "./Routes/TeacherRoutes";
 
 import { Routes, Route } from "react-router-dom";
 import Home from "./views/Home/Home";
+import { ProtectedAdminRoute } from "./Provider/ProtectecAdminRoutes";
 
 function App() {
   return (
@@ -13,13 +14,20 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>}/>
       </Routes>
+      
       <NewRoute />
       <StudentRoute />
       <TeacherRoutes />
-      <AdminRoute />
-      <Routes>
-        <Route path="*" element={<Home />} />
-      </Routes>
+
+      
+        
+
+      {/*** 
+        <Routes>
+          <Route path="*" element={<Home />} />
+        </Routes>
+
+      ***/}
     </div>
   );
 }

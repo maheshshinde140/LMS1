@@ -7,6 +7,7 @@ import TeacherProfile from '../Teacher/YourProfile/teacherProfile';
 function TeacherRoutes() {
   return (
     <div>
+    
       <Routes>
         <Route path="/uploadvideo" element={<UploadVideo/>} />
         <Route path={'/uploadvideo/:courseCode'} element={<UploadVideo/>} />

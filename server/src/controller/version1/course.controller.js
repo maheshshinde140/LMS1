@@ -201,7 +201,7 @@ const getCourses = asyncHandler(async (req, res) => {
 
 const getCourseByCode = asyncHandler(async (req, res) => {
 
-    const { courseCode } = req.query;
+    const { courseCode } = req.params;
 
     if(!courseCode) {
         return res.status(400).json(new ApiError(405, 'Missing required fields'));
@@ -265,8 +265,6 @@ const deleteCourse = asyncHandler(async (req, res) => {
 
 
 });
-
-
 
 
 const uploadLectures = asyncHandler(async (req, res) => {
