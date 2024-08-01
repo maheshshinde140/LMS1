@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import "./Overview.css";
@@ -11,6 +11,7 @@ function Overview() {
   const [activeCourse, setActiveCourse] = useState(null);
 
   const category = [
+
     {
       id: 1,
       image:
@@ -84,7 +85,32 @@ function Overview() {
 
   const {courseCode} = useParams();
   
+
+
+  const fetchCourse = async(e) => {
+
+    try {
+      
+      const response = await axios.get(`/api/course//getCourseByCode/${courseCode}`);
+
+      console.log(" response => ", response);
+
+
+    } 
+    catch (error) {
+      
+      console.log(error);
+    }
+
+  }
+
+
   
+
+  useEffect(() => {
+    fetchCourse();
+  })
+
 
 
 
@@ -93,7 +119,7 @@ function Overview() {
     const {data: {key}} = await axios.get('/api/getkey')
 
     const data = {
-        amount: amount || 200000,
+        amount: amount || 2000,
     }
 
     
@@ -327,6 +353,7 @@ function Overview() {
 
        ))}
       <Companies/>
+
       {/* <Faq/> */}
       <Footer />
       

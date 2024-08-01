@@ -52,6 +52,13 @@ courseRouter.route('/getCourseByCode').get(
 )
 
 
+courseRouter.route('/getCourseByCode/:courseCode').get(
+    
+    upload.none(),
+    getCourseByCode
+)
+
+
 
 
 

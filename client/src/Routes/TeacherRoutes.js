@@ -8,6 +8,7 @@ import  ProtectedTecherRoutes  from "../Provider/ProtectedTecherRoutes";
 function TeacherRoutes() {
   return (
     <div>
+    
       <Routes>
         <Route element={<ProtectedTecherRoutes />}>
           <Route path="/uploadvideo" element={<UploadVideo />} />
