@@ -21,9 +21,9 @@ const createCourse = asyncHandler(async (req, res) => {
 
     const {adminEmail} = req.user;
 
-    console.log(adminEmail);
+    console.log("req.user => ", req.user);
 
-    const { courseName,courseThumbnail, courseDescription, coursePrice, courseCode,courseTeacher,courseEndDate, courseStartDate, courseDuration } = req.body;
+    const { courseName, courseDescription, coursePrice, courseCode,courseTeacher,courseEndDate, courseStartDate, courseDuration } = req.body;
 
     // if(!courseName || !courseDescription || !coursePrice || !courseCode || !courseTeacher || !courseStartDate ||!courseEndDate|| !courseDuration) {
 
@@ -31,6 +31,14 @@ const createCourse = asyncHandler(async (req, res) => {
     //     .status(400)
     //     .json(new ApiError(405, 'Missing required fields'));
     // }
+
+
+    const admin = await Admin.findOne({adminEmail});
+
+    if(!admin) {
+        return res.status(404).json(new ApiError(404, 'Admin not found'));
+    }
+
 
     console.log("req.file => ", req.file);
 
@@ -65,7 +73,7 @@ const createCourse = asyncHandler(async (req, res) => {
             courseCode,
             courseStartDate,
             courseEndDate,
-            adminEmail:adminEmail,
+            adminEmail,
             courseDuration,
             courseTeacher : courseTeacher,
 
