@@ -19,6 +19,12 @@ function App() {
       <StudentRoute />
       <TeacherRoutes />
 
+      <Routes>
+        <Route path="/admin" element={<AdminRoute />}/>
+      </Routes>
+
+
+
       
         
 
@@ -28,6 +34,7 @@ function App() {
         </Routes>
 
       ***/}
+
     </div>
   );
 }

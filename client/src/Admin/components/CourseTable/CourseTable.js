@@ -26,40 +26,50 @@ const CourseTable = () => {
   },[])
   
   const CourseCard = ({ product }) => (
-    <div className="">
-      <img 
-        src={`${product.courseThumbnail.private_url}`} 
-        alt="Course" 
-        className="w-full mb-4 object-fill h-40" 
+    <div className="flex bg-white rounded-2xl  flex-col ">
+      <img
+        src={`${product.courseThumbnail.private_url}`}
+        alt="Course"
+        className="w-full rounded-t-2xl mb-4 object-fill h-40"
       />
-      <h3 className="text-xl font-semibold mb-2">{product.courseName}</h3>
-      <p><strong>Course Code:</strong> {product.courseCode}</p>
-      <p><strong>Price:</strong> {product.coursePrice}</p>
-      <p><strong>Duration:</strong> {`${(Number(product.courseDuration)/60).toFixed()}  Hrs` }</p>
-      <div className="flex justify-between w-full"> 
-        <p className=''><strong>Start Date:</strong> {(product.courseStartDate).slice(0,7)}</p>
-        <p><strong>End Date:</strong> {(product.courseEndDate).slice(0,7)  }</p>
-      </div>
-      <p><strong>Teacher:</strong> {product.courseTeacher.map((data) => data)}</p>
-      <section className='flex justify-around gap-12 items-center'>
-
-
-        <button
-        onClick={() => setShowOverview(true)}  
-        className="border-1 shadow-md rounded-lg border-gray-300 p-2 text-xl text-gray-600 hover:bg-gray-100 bg-blue-300 hover:text-green-500 transition-colors duration-200">View Course
-        </button>
-
-        <Link to="/admin/viewLectures">
-
+      <div className='p-4'>
+        <h3 className="text-xl font-semibold mb-2">{product.courseName}</h3>
+        <p>
+          <strong>Course Code:</strong> {product.courseCode}
+        </p>
+        <p>
+          <strong>Price:</strong> {product.coursePrice}
+        </p>
+        <p>
+          <strong>Duration:</strong>{" "}
+          {`${(Number(product.courseDuration) / 60).toFixed()}  Hrs`}
+        </p>
+        <div className="flex justify-between w-full">
+          <p className="">
+            <strong>Start Date:</strong> {product.courseStartDate.slice(0, 7)}
+          </p>
+          <p>
+            <strong>End Date:</strong> {product.courseEndDate.slice(0, 7)}
+          </p>
+        </div>
+        <p>
+          <strong>Teacher:</strong> {product.courseTeacher.map((data) => data)}
+        </p>
+        <section className="flex justify-around gap-12 items-center">
           <button
-            
-            className="border-1 shadow-md rounded-lg border-gray-300 p-2 text-xl text-gray-600 hover:bg-gray-100 bg-blue-300 hover:text-green-500 transition-colors duration-200">View Lectures
+            onClick={() => setShowOverview(true)}
+            className="border-1 shadow-md rounded-lg border-gray-300 p-2 text-xl text-gray-600 hover:bg-gray-100 bg-blue-300 hover:text-green-500 transition-colors duration-200"
+          >
+            View Course
           </button>
-        
-        </Link>
-      </section>
 
-
+          <Link to="/admin/viewLectures">
+            <button className="border-1 shadow-md rounded-lg border-gray-300 p-2 text-xl text-gray-600 hover:bg-gray-100 bg-blue-300 hover:text-green-500 transition-colors duration-200">
+              View Lectures
+            </button>
+          </Link>
+        </section>
+      </div>
     </div>
   );
 
@@ -83,7 +93,7 @@ const CourseTable = () => {
 
   return (
     <div className="my-8 mx-4 h-screen">
-      <div className="p-4 bg-white rounded-lg">
+      <div className="p-4  rounded-lg flex ">
         {/* <div className="flex flex-col sm:flex-row justify-between items-center mb-12">
           <div className="flex items-center space-x-2 mb-4 sm:mb-0">
             <input
@@ -106,9 +116,10 @@ const CourseTable = () => {
             />
           ))}
         </div> */}
-        <div className="flex flex-wrap">
+        <div className="flex gap-10  flex-wrap">
           {getCourse.map(product => (
             <CourseCard 
+              
               key={product.id} 
               product={product} 
             />

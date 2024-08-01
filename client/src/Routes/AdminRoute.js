@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Route, Routes, Link } from "react-router-dom";
 import Admin from "../Admin/Admin";
 
@@ -14,7 +14,10 @@ import {
   FaTags,
   FaUser,
   FaTimes,
+  
 } from "react-icons/fa";
+
+import {LuAlignJustify} from "react-icons/lu"
 import UpdateCourse from "../Admin/UpdateCourse/UpdateCourse";
 import AdminNavbar from "../Admin/Navigation/AdminNavbar";
 import { ProtectedAdminRoute } from "../Provider/ProtectecAdminRoutes";
@@ -34,30 +37,46 @@ function AdminRoute() {
     { name: "update Course", path: "/admin/updateCourse", icon: <FaUser /> },
     { name: "Teacher List", path: "/admin/teachers", icon: <FaUser /> },
   ];
+  const [hideSidebar, sethideSidebar] = useState(true);
 
   return (
     <>
       <AdminNavbar />
-      <div className="flex">
-        <div className={sidebarClasses}>
-          <div className="p-4 flex justify-between items-center w-[280px]">
-            <h1 className="text-2xl font-bold text-red-500">Admin</h1>
-            <button
-              className="text-gray-400 hover:text-green-500 lg:hidden"
-              onClick={null}
-            >
-              <FaTimes />
-            </button>
-          </div>
-          <nav className="mt-8 h-screen">
-            {menu.map((item, index) => (
-              <Link to={item.path} key={index} className={linkClasses}>
-                {item.icon}
-                <span className="ml-3">{item.name}</span>
-              </Link>
-            ))}
-          </nav>
+      {!hideSidebar && (
+        <div className="bg-white">
+          <button className="ml-3">
+            <LuAlignJustify
+              className="size-6"
+              onClick={() => sethideSidebar(!hideSidebar)}
+            />
+          </button>
         </div>
+      )}
+      <div className="flex">
+        {hideSidebar && (
+          <div className={sidebarClasses}>
+            <div className="p-4 flex justify-between items-center w-[280px]">
+              <h1 className="text-2xl font-bold text-red-500">Admin</h1>
+              <button
+                className="text-gray-400 hover:text-green-500 lg:hidden"
+                onClick={null}
+              >
+                <FaTimes
+                  onClick={() => sethideSidebar(!hideSidebar)}
+                  className="absolute right-6"
+                />
+              </button>
+            </div>
+            <nav className="mt-8 h-screen">
+              {menu.map((item, index) => (
+                <Link to={item.path} key={index} className={linkClasses}>
+                  {item.icon}
+                  <span className="ml-3">{item.name}</span>
+                </Link>
+              ))}
+            </nav>
+          </div>
+        )}
         <Routes>
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin" element={<Admin />} />
