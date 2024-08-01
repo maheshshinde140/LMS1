@@ -12,21 +12,12 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<Home />} />
       </Routes>
-      
       <NewRoute />
       <StudentRoute />
       <TeacherRoutes />
-
-      <Routes>
-        <Route path="/admin" element={<AdminRoute />}/>
-      </Routes>
-
-
-
-      
-        
+      <AdminRoute />
 
       {/*** 
         <Routes>
@@ -34,7 +25,6 @@ function App() {
         </Routes>
 
       ***/}
-
     </div>
   );
 }
