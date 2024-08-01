@@ -37,6 +37,11 @@ function Courses() {
 
       console.log("response.data.data => ",response.data.data);
 
+      if(response.data.data.length === 0) {
+
+        return <div className="text-center text-white text-2xl font-bold">No Courses Found</div>
+      }
+
       setCourses(response.data.data);
       
     } 
@@ -73,12 +78,13 @@ function Courses() {
         {courses.map((course) => (
           <div
             key={course._id}
-            className="bg-gray-700 text-white rounded-lg shadow-lg overflow-hidden shadow-gray-200"
+            className="bg-gray-700  text-white rounded-lg shadow-lg overflow-hidden shadow-gray-200"
           >
             <img
               src={course.courseThumbnail.private_url}
               alt={course.title}
-              className="w-full h-70 object-cover"
+              className="w-full h-[250px]"
+              height="200px"
             />
 
             <div className="p-5">
@@ -91,9 +97,9 @@ function Courses() {
                 })}
               </button>
 
-              <div className="mt-7 flex justify-between mb-2  text-gray-300  text-xl font-bold">
+              <div className="mt-7 flex flex-col justify-between mb-2  text-gray-300  text-xl font-bold">
                 <div> By {course.adminEmail}</div>
-                <div> {course.coursePrice}</div>
+                <div className="text-green-300"> ₹ {course.coursePrice}</div>
               </div>
             </div>
            
