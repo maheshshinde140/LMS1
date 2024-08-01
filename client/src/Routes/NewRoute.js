@@ -38,9 +38,9 @@ function NewRoute() {
         <Route element={<ProtectedAdminRoute />}>
           <Route path="/admin" element={<AdminRoute />} />
 
-        </Route> */}
+        </Route> 
           
-        </Route>
+       
         <Route path="/admin" element={<AdminRoute />} />
 
       </Routes>
