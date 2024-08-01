@@ -41,7 +41,7 @@ function Navbar() {
     { name: "Dashboard", href: "/dashboard", current: true, isAuth: isAdmin },
     { name: "Home", href: "/", current: false, isAuth: true },
     { name: "Courses", href: "/courses", current: false, isAuth: true },
-    { name: "My Courses", href: "/mycourses", current: false, isAuth: isAuth },
+
     { name: "Notes", href: "#", current: false, isAuth: isAuth },
     { name: "Blog", href: "#", current: false, isAuth: true },
     { name: "Login", href: "/login", current: false, isAuth: !isAuth },

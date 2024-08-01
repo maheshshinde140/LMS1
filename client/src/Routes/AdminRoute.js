@@ -14,10 +14,9 @@ import {
   FaTags,
   FaUser,
   FaTimes,
-  
 } from "react-icons/fa";
 
-import {LuAlignJustify} from "react-icons/lu"
+import { LuAlignJustify } from "react-icons/lu";
 import UpdateCourse from "../Admin/UpdateCourse/UpdateCourse";
 import AdminNavbar from "../Admin/Navigation/AdminNavbar";
 import { ProtectedAdminRoute } from "../Provider/ProtectecAdminRoutes";
@@ -79,7 +78,6 @@ function AdminRoute() {
         )}
         <Routes>
           <Route element={<ProtectedAdminRoute />}>
-            <Route path="/admin" element={<Admin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/teachers" element={<TeacherList />} />
 

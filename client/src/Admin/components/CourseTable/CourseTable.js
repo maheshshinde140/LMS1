@@ -92,8 +92,8 @@ const CourseTable = () => {
   };
 
   return (
-    <div className="my-8 mx-4 h-screen">
-      <div className="p-4  rounded-lg flex ">
+    <div className="my-8 mx-4 h-screen w-full">
+      <div className="p-4  rounded-lg flex flex-col w-full">
         {/* <div className="flex flex-col sm:flex-row justify-between items-center mb-12">
           <div className="flex items-center space-x-2 mb-4 sm:mb-0">
             <input
@@ -117,7 +117,7 @@ const CourseTable = () => {
           ))}
         </div> */}
         <div className="flex gap-10  flex-wrap">
-          {getCourse.map(product => (
+          {getCourse && getCourse.map(product => (
             <CourseCard 
               
               key={product.id} 
