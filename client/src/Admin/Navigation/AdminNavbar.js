@@ -1,13 +1,20 @@
+import axios from "axios";
 import React from "react";
 import { FaSearch, FaUserCircle } from "react-icons/fa";
-import Cookie from "js-cookie";
-
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/User/userSlice";
 const AdminNavbar = () => {
+  const dispatch = useDispatch();
   const user = localStorage.getItem("persist:root");
   console.log(user.split(",")[1].includes(true));
 
-  function logout() {
-    Cookie.remove("adminToken");
+  async function logoutBtn() {
+    const res = await axios.get("/api/admin/logout");
+    if (res.status === 200) {
+      localStorage.removeItem("persist:root");
+    }
+    dispatch(logout());
+
   }
   return (
     <nav className="bg-white shadow p-4 flex justify-between">
@@ -26,9 +33,9 @@ const AdminNavbar = () => {
           <span className="text-gray-600">Admin Name</span>
         </span>
         <span>
-          {user.split(",")[1].includes(true) ? (
-            <button onClick={() =>  Cookie.remove("adminToken")}>Sign out</button>
-          ) : null}
+          
+            <button onClick={logoutBtn}>Sign out</button>
+  
         </span>
       </div>
     </nav>

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import OrdersTable from '../Orders/OrdersTable';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import OrdersTable from "../Orders/OrdersTable";
+import { Link } from "react-router-dom";
+import axios from "axios";
 //Course Sidebar Data panel
 
 const inputClasses = "border border-input rounded p-1";
@@ -11,20 +11,18 @@ const primaryClasses = "bg-primary text-primary-foreground";
 
 // Define the CourseCard component
 
-
 const CourseTable = () => {
-
   const [showOverview, setShowOverview] = useState(false);
-  const [getCourse,setgetCourse] = useState([])
+  const [getCourse, setgetCourse] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-  axios.get('/api/course/getCourses').then((res) => {
+    axios.get("/api/course/getCourses").then((res) => {
       setgetCourse(res.data.data);
       // setFilteredProducts(res.data.data);
-    })
-  },[])
-  
+    });
+  }, []);
+
   const CourseCard = ({ product }) => (
     <div className="flex bg-white rounded-2xl  flex-col ">
       <img
@@ -32,7 +30,7 @@ const CourseTable = () => {
         alt="Course"
         className="w-full rounded-t-2xl mb-4 object-fill h-40"
       />
-      <div className='p-4'>
+      <div className="p-4">
         <h3 className="text-xl font-semibold mb-2">{product.courseName}</h3>
         <p>
           <strong>Course Code:</strong> {product.courseCode}
@@ -73,22 +71,15 @@ const CourseTable = () => {
     </div>
   );
 
-
-
-
-
-
-
-
-
-
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-    setFilteredProducts(getCourse.filter(product =>
-      product.course.toLowerCase().includes(event.target.value.toLowerCase())
-    ));
+    setFilteredProducts(
+      getCourse.filter((product) =>
+        product.course.toLowerCase().includes(event.target.value.toLowerCase())
+      )
+    );
   };
 
   return (
@@ -117,64 +108,68 @@ const CourseTable = () => {
           ))}
         </div> */}
         <div className="flex gap-10  flex-wrap">
-          {getCourse && getCourse.map(product => (
-            <CourseCard 
-              
-              key={product.id} 
-              product={product} 
-            />
+          {getCourse.map((product) => (
+            <CourseCard key={product.id} product={product} />
           ))}
         </div>
 
-        { 
-          showOverview && 
-            
-            <div className="mt-4 p-4 border border-gray-200 rounded shadow-md shadow-gray-600 bg-gray-50">
-            <h3 className="text-lg text-center font-semibold">Course Overview</h3>
+        {showOverview && (
+          <div className="mt-4 p-4 border border-gray-200 rounded shadow-md shadow-gray-600 bg-gray-50">
+            <h3 className="text-lg text-center font-semibold">
+              Course Overview
+            </h3>
 
             <header className="flex flex-col md:flex-row justify-around items-center md:justify-around lg:justify-around xl:items-start">
-
               <main className="flex rounded p-4 flex-col justify-between items-center shadow-xl shadow-gray-600">
-
-                <img src="https://images.unsplash.com/photo-1516802273409-68526ee1bdd6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Course" className="w-full mb-4 h-40 object-cover" />
+                <img
+                  src="https://images.unsplash.com/photo-1516802273409-68526ee1bdd6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                  alt="Course"
+                  className="w-full mb-4 h-40 object-cover"
+                />
 
                 <h3 className="text-xl font-semibold mb-2">Course Name</h3>
-                <p><strong>Course Code:</strong>Course Code</p>
+                <p>
+                  <strong>Course Code:</strong>Course Code
+                </p>
 
-                <p><strong>Price:</strong>Course Price</p>
-                <p><strong>Duration:</strong>Course Duration</p>
-                
-                  <p><strong>Start Date:</strong>Course Start Date</p>
-                  <p><strong>End Date:</strong>Course End Date</p>
+                <p>
+                  <strong>Price:</strong>Course Price
+                </p>
+                <p>
+                  <strong>Duration:</strong>Course Duration
+                </p>
 
+                <p>
+                  <strong>Start Date:</strong>Course Start Date
+                </p>
+                <p>
+                  <strong>End Date:</strong>Course End Date
+                </p>
               </main>
-
-
 
               {/***  Course teachers  ***/}
               <main className="flex rounded p-4 flex-col py-12 justify-between items-center shadow-xl shadow-gray-600">
+                <img
+                  src="https://images.unsplash.com/photo-1516802273409-68526ee1bdd6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                  alt="Course"
+                  className="w-full mb-4 h-40 object-cover"
+                />
+                <h3 className="text-lg text-center font-semibold">
+                  Course Teachers
+                </h3>
 
-                <img src="https://images.unsplash.com/photo-1516802273409-68526ee1bdd6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Course" className="w-full mb-4 h-40 object-cover" />
-                <h3 className="text-lg text-center font-semibold">Course Teachers</h3>
-            
                 <p>Mr. Arun Shukla</p>
                 <p>Mr. Tara Sighole</p>
                 <p>Mr. Anup Kasol</p>
-      
               </main>
-      
             </header>
 
             <OrdersTable />
-            
-
-            </div>
-        }
+          </div>
+        )}
       </div>
     </div>
   );
 };
-
-
 
 export default CourseTable;

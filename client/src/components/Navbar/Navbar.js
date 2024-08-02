@@ -4,9 +4,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/User/userSlice";
-import axios from "axios";
 import { useMediaQuery } from '@mui/material';
-import Cookies from "js-cookie";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -27,21 +25,14 @@ function Navbar() {
   
   const isAdmin = user?.userType === "admin" ? true : false;
 
-  const login = document.cookie.split(';').find(c => c.trim().startsWith(`studentToken= || teacherToken=`))?.split('=')[1];
 
-  const cookie = Cookies.get(`StudentToken || TeacherToken `);
-
-  console.log("cookie => ", cookie);
-
-  console.log(window);
-
-  const student = user === "studentType"; 
+  const teacher = user === "teacher"; 
 
   const navigation = [
     { name: "Dashboard", href: "/dashboard", current: true, isAuth: isAdmin },
     { name: "Home", href: "/", current: false, isAuth: true },
     { name: "Courses", href: "/courses", current: false, isAuth: true },
-
+    // { name: "My Courses", href: "/mycourses", current: false, isAuth: isAuth },
     { name: "Notes", href: "#", current: false, isAuth: isAuth },
     { name: "Blog", href: "#", current: false, isAuth: true },
     { name: "Login", href: "/login", current: false, isAuth: !isAuth },
@@ -140,7 +131,7 @@ function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                          to={student ? "/teacherprofile" : "/student/profile"}
+                          to={teacher ? "/teacherprofile" : "/student/profile"}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-lg text-gray-700"
@@ -153,7 +144,7 @@ function Navbar() {
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to={student ? "/teacher/mycourses" : "/student/mycourses"}
+                            to={teacher ? "/teacher/mycourses" : "/student/mycourses"}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-lg text-gray-700"
