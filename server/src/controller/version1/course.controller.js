@@ -191,7 +191,7 @@ const getCourses = asyncHandler(async (req, res) => {
 
 const getCourseByCode = asyncHandler(async (req, res) => {
 
-    const { courseCode } = req.query;
+    // const { courseCode } = req.query;
 
 
     // const { courseCode } = req.params;
