@@ -46,7 +46,7 @@ const createCourse = asyncHandler(async (req, res) => {
         courseDuration
     } = req.body;
 
-    const { courseName, courseDescription, coursePrice, courseCode,courseTeacher,courseEndDate, courseStartDate, courseDuration } = req.body;
+    // const { courseName, courseDescription, coursePrice, courseCode,courseTeacher,courseEndDate, courseStartDate, courseDuration } = req.body;
 
 
     // if(!courseName || !courseDescription || !coursePrice || !courseCode || !courseTeacher || !courseStartDate ||!courseEndDate|| !courseDuration) {
@@ -194,7 +194,7 @@ const getCourseByCode = asyncHandler(async (req, res) => {
     const { courseCode } = req.query;
 
 
-    const { courseCode } = req.params;
+    // const { courseCode } = req.params;
 
 
     if (!courseCode) {
