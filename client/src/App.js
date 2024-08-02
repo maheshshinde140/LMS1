@@ -8,23 +8,22 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./views/Home/Home";
 import { ProtectedAdminRoute } from "./Provider/ProtectecAdminRoutes";
 
+
 function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home/>}/>
       </Routes>
       <NewRoute />
       <StudentRoute />
       <TeacherRoutes />
-      <AdminRoute />
 
-      {/*** 
-        <Routes>
-          <Route path="*" element={<Home />} />
-        </Routes>
-
-      ***/}
+      
+  
+      <Routes>
+        <Route path="/admin" element={<AdminRoute />}/>
+      </Routes>
     </div>
   );
 }

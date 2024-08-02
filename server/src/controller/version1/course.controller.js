@@ -351,6 +351,8 @@ const uploadLectures = asyncHandler(async (req, res) => {
     }
 });
 
+
+
 const sendSignedUrl = async (req, res) => {
     const courseCode = 'AIDS';
     const filename = `video-${courseCode}-${Date.now()}.mp4`;
