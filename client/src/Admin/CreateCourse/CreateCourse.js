@@ -6,8 +6,10 @@ import InputTags from "../../components/InputTags/InputTags";
 
 function CreateCourse() {
   const [teachers, setTeachers] = useState(null);
-  const inputRef = useRef(null);
+  const inputTechnologyRef = useRef(null);
+  const inputToolsRef = useRef(null);
   const [technology, setTechnology] = useState([]);
+  const [tools, setTools] = useState([]);
   const [courseData, setCourseData] = useState({
     courseName: "",
     courseCode: "",
@@ -18,7 +20,8 @@ function CreateCourse() {
     courseEndDate: null,
     courseTeacher: "",
     courseThumbnail: null,
-    courseTags: [],
+    courseTechnology: [],
+    courseTools: [],
   });
 
   useEffect(() => {
@@ -35,32 +38,58 @@ function CreateCourse() {
     courseData.courseEndDate = new Date(
       courseData.courseEndDate
     ).toDateString();
-    courseData.courseTags = technology;
+    courseData.courseTechnology = technology;
+    courseData.courseTools = tools;
     const res = await axios.post("/api/course/createCourse", courseData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
     console.log(res);
+    if (res.status === 200 || res.status === 201) {
+      alert("course created");
+    }
   };
 
-  const handlInput = (tag) => {
-    document.getElementById("inputTag").addEventListener("keypress", (e) => {
-      console.log(tag);
-
-      if (e.key === "Enter") {
-        if (technology.filter((tags) => tags !== tag)) {
-          setTechnology([...technology, tag]);
+  const handleTechnologyInput = (tag) => {
+    document
+      .getElementById("inputTechnologyTag")
+      .addEventListener("keypress", (e) => {
+        console.log(tag);
+        if (e.key === "Enter") {
+          if (technology.filter((tags) => tags !== tag)) {
+            setTechnology([...technology, tag]);
+            inputTechnologyRef.current.value = "";
+          }
         }
-      }
-    });
+      });
+  };
+  const handleToolsInput = (tag) => {
+    document
+      .getElementById("inputToolsTag")
+      .addEventListener("keypress", (e) => {
+        console.log(tag);
+        if (e.key === "Enter") {
+          if (tools.filter((tags) => tags !== tag)) {
+            setTools([...tools, tag]);
+            inputToolsRef.current.value = "";
+          }
+        }
+      });
   };
 
-  const removeTag = (wantToRemoveTag) => {
+  const removeTechnologyTag = (wantToRemoveTag) => {
     console.log(wantToRemoveTag);
     const newTag = technology.filter((tag) => tag !== wantToRemoveTag);
     console.log(newTag);
     setTechnology(newTag);
+  };
+
+  const removeToolsTag = (wantToRemoveTag) => {
+    console.log(wantToRemoveTag);
+    const newTag = tools.filter((tag) => tag !== wantToRemoveTag);
+    console.log(newTag);
+    setTools(newTag);
   };
 
   return (
@@ -72,11 +101,11 @@ function CreateCourse() {
         <p className="text-center mb-6">
           Kindly fill this form to create a new course
         </p>
-        <form
-          // onSubmit={handleOnSubmit}
-          onSubmit={(e) => e.preventDefault()}
-          method="POST"
-          enctype="multipart/form-data"
+        <div
+        // onSubmit={handleOnSubmit}
+        // onSubmit={(e) => e.preventDefault()}
+        // method="POST"
+        // enctype="multipart/form-data"
         >
           {/* Course Name */}
           <div className="mb-4">
@@ -86,22 +115,13 @@ function CreateCourse() {
             >
               Course Name
             </label>
-            <select
+            <input
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               id="courseName"
               onClick={(e) =>
                 setCourseData({ ...courseData, courseName: e.target.value })
               }
-            >
-              <option value="">Select Course</option>
-              <option value="Artificial Intelligence and Machine Learning">
-                Artificial Intelligence and Machine Learning
-              </option>
-              <option value="Python with Django">Python with Django</option>
-              <option value="Full Stack Development">
-                Full Stack Development
-              </option>
-            </select>
+            ></input>
           </div>
 
           {/* Course Code */}
@@ -117,7 +137,7 @@ function CreateCourse() {
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="text"
               id="courseCode"
-              placeholder="Enter course price"
+              placeholder="Enter course Code"
               onChange={(e) =>
                 setCourseData({ ...courseData, courseCode: e.target.value })
               }
@@ -126,19 +146,14 @@ function CreateCourse() {
 
           {/* Course Techonologs */}
           <div>
-            <input
-              className="border"
-              id="inputTag"
-              type="text"
-              onChange={(e) => handlInput(e.target.value)}
-              // ref={inputRef}
-            />
             <div className="flex gap-2 my-4">
               {technology.map((tags, i) => {
                 return (
                   <button
                     key={i}
-                    onClick={(e) => removeTag(e.currentTarget.innerText)}
+                    onClick={(e) =>
+                      removeTechnologyTag(e.currentTarget.innerText)
+                    }
                     className="p-2 border text-white bg-black rounded-lg"
                   >
                     {tags}
@@ -146,6 +161,39 @@ function CreateCourse() {
                 );
               })}
             </div>
+            <input
+              className="mb-6 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              id="inputTechnologyTag"
+              type="text"
+              placeholder="Course Techonologs"
+              onChange={(e) => handleTechnologyInput(e.target.value)}
+              ref={inputTechnologyRef}
+            />
+          </div>
+
+          {/* Course Tools */}
+          <div>
+            <div className="flex gap-2 my-4">
+              {tools.map((tags, i) => {
+                return (
+                  <button
+                    key={i}
+                    onClick={(e) => removeToolsTag(e.currentTarget.innerText)}
+                    className="p-2 border text-white bg-black rounded-lg"
+                  >
+                    {tags}
+                  </button>
+                );
+              })}
+            </div>
+            <input
+              className="mb-6 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              id="inputToolsTag"
+              type="text"
+              placeholder="Course Tools"
+              onChange={(e) => handleToolsInput(e.target.value)}
+              ref={inputToolsRef}
+            />
           </div>
           {/* Course Description */}
           <div className="mb-4">
@@ -272,7 +320,7 @@ function CreateCourse() {
                 }
               >
                 <option value="">Select Teacher</option>
-                { teachers.length > 1 ? (
+                {teachers.length > 1 ? (
                   teachers.map((teacher) => {
                     return (
                       <option value={teacher.teacherEmail}>
@@ -317,7 +365,7 @@ function CreateCourse() {
           >
             Create Course
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );

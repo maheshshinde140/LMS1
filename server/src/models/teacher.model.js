@@ -58,17 +58,14 @@ const TeacherSchema = new mongoose.Schema({
 
     teacherSubjects: [{
         type: String,
-
     }],
-
-     
+  
     // course: [{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Course',
-
     // }],
-   
-   
+
+
 }, {timestamps: true});
 
 
