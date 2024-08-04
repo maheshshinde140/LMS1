@@ -12,18 +12,21 @@ import { ProtectedAdminRoute } from "./Provider/ProtectecAdminRoutes";
 function App() {
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
+      <h1>Hello world</h1>
+      {/* <Routes>
+        <Route path="/" element={<Home />} />
       </Routes>
       <NewRoute />
       <StudentRoute />
       <TeacherRoutes />
+      <AdminRoute /> */}
 
-      
-  
-      <Routes>
-        <Route path="/admin" element={<AdminRoute />}/>
-      </Routes>
+      {/*** 
+        <Routes>
+          <Route path="*" element={<Home />} />
+        </Routes>
+
+      ***/}
     </div>
   );
 }
