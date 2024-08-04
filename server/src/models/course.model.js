@@ -139,7 +139,6 @@ const CourseSchema = new mongoose.Schema({
 
 	courseDuration: {
 		type: String,
-
 	},
 
 	courseTools: [{

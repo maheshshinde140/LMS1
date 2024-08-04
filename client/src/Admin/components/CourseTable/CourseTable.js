@@ -15,6 +15,7 @@ const CourseTable = () => {
   const [showOverview, setShowOverview] = useState(false);
   const [getCourse, setgetCourse] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState();
 
   useEffect(() => {
     axios.get("/api/course/getCourses").then((res) => {
@@ -24,7 +25,12 @@ const CourseTable = () => {
   }, []);
 
   const CourseCard = ({ product }) => (
-    <div className="flex bg-white rounded-2xl  flex-col ">
+    <div
+      onClick={() => {
+        setSelectedProduct(product);
+      }}
+      className="flex bg-white rounded-2xl  flex-col "
+    >
       <img
         src={`${product.courseThumbnail.private_url}`}
         alt="Course"
@@ -50,10 +56,10 @@ const CourseTable = () => {
             <strong>End Date:</strong> {product.courseEndDate.slice(0, 7)}
           </p>
         </div>
-        <p>
+        {/* <p>
           <strong>Teacher:</strong> {product.courseTeacher.map((data) => data)}
-        </p>
-        <section className="flex justify-around gap-12 items-center">
+        </p> */}
+        <section className="flex my-4 justify-around gap-12 items-center">
           <button
             onClick={() => setShowOverview(true)}
             className="border-1 shadow-md rounded-lg border-gray-300 p-2 text-xl text-gray-600 hover:bg-gray-100 bg-blue-300 hover:text-green-500 transition-colors duration-200"
@@ -119,48 +125,51 @@ const CourseTable = () => {
               Course Overview
             </h3>
 
-            <header className="flex flex-col md:flex-row justify-around items-center md:justify-around lg:justify-around xl:items-start">
-              <main className="flex rounded p-4 flex-col justify-between items-center shadow-xl shadow-gray-600">
+            <header className="flex flex-col md:flex-row justify-center items-start md:justify-around lg:justify-around xl:items-start">
+              <main className="flex rounded p-4 flex-col justify-between items-start ">
                 <img
-                  src="https://images.unsplash.com/photo-1516802273409-68526ee1bdd6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                  src={`${selectedProduct.courseThumbnail.private_url}`}
                   alt="Course"
                   className="w-full mb-4 h-40 object-cover"
                 />
 
-                <h3 className="text-xl font-semibold mb-2">Course Name</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  {selectedProduct.courseName}
+                </h3>
                 <p>
-                  <strong>Course Code:</strong>Course Code
+                  <strong>Course Code:</strong>
+                  {selectedProduct.courseCode}
                 </p>
 
                 <p>
-                  <strong>Price:</strong>Course Price
+                  <strong>Price:</strong>
+                  {selectedProduct.coursePrice}
                 </p>
                 <p>
-                  <strong>Duration:</strong>Course Duration
+                  <strong>Duration:</strong>
+                  {selectedProduct.courseDuration}
                 </p>
 
-                <p>
-                  <strong>Start Date:</strong>Course Start Date
-                </p>
-                <p>
-                  <strong>End Date:</strong>Course End Date
-                </p>
+                <div className="flex flex-col justify-between w-full">
+                  <p className="">
+                    <strong>Start Date:</strong>{" "}
+                    {selectedProduct.courseStartDate.slice(0, 7)}
+                  </p>
+                  <p>
+                    <strong>End Date:</strong>{" "}
+                    {selectedProduct.courseEndDate.slice(0, 7)}
+                  </p>
+                </div>
               </main>
 
               {/***  Course teachers  ***/}
               <main className="flex rounded p-4 flex-col py-12 justify-between items-center shadow-xl shadow-gray-600">
-                <img
-                  src="https://images.unsplash.com/photo-1516802273409-68526ee1bdd6?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-                  alt="Course"
-                  className="w-full mb-4 h-40 object-cover"
-                />
                 <h3 className="text-lg text-center font-semibold">
                   Course Teachers
                 </h3>
-
-                <p>Mr. Arun Shukla</p>
-                <p>Mr. Tara Sighole</p>
-                <p>Mr. Anup Kasol</p>
+                {selectedProduct?.courseTeacher?.map((teacher) => {
+                  return <p>{teacher}</p>;
+                })}
               </main>
             </header>
 
