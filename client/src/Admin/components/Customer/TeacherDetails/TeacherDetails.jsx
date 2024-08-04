@@ -66,7 +66,6 @@ const TeacherDetails = ({ teacher }) => {
         <div className="space-y-6">
           <div>
             <h3 className="text-lg font-semibold mb-2">About</h3>
-            <p className="text-gray-600">{teacher?.bio}</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-2">Specializations</h3>
@@ -87,7 +86,7 @@ const TeacherDetails = ({ teacher }) => {
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-2">Contact</h3>
-            <p className="text-gray-600">{teacher.phone}</p>
+            <p className="text-gray-600">{teacher.teacherPhone}</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-2">Personal Documents</h3>
