@@ -32,7 +32,7 @@ const CourseTable = () => {
       />
       <div className="p-4">
         <h3 className="text-xl font-semibold mb-2">{product.courseName}</h3>
-        <p>
+        <p> 
           <strong>Course Code:</strong> {product.courseCode}
         </p>
         <p>
