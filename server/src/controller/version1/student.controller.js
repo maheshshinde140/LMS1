@@ -240,16 +240,22 @@ const getMyCourses = asyncHandler(async (req, res, next) => {
             .json(new ApiError(400, 'Invalid email or password'));
         }
         
-        const courses = await Course.find({
-            studentEmail: studentEmail
-        
-        });
+        const courses = await Course.find({});
 
-        console.log(courses);
+        
+        const purchaseCourses = courses.filter((get) => {
+            get.studentEmail.filter((s) => {
+                s === studentEmail
+            })
+        })
+
+        
+        console.log("purchase Courses => ", purchaseCourses);
+
         
         return res
         .status(200)
-        .json(new ApiResponse(200, 'Student courses fetched successfully' , courses));
+        .json(new ApiResponse(200, 'Student courses fetched successfully' , purchaseCourses));
         
        
     }   

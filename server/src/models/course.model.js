@@ -8,7 +8,8 @@ const CourseSchema = new mongoose.Schema({
 	},
 
 	studentEmail : [{	
-		type: String
+		type: String,
+		
 	}],
 
 	teacherEmail : [{	
