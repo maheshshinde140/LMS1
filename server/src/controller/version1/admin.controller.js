@@ -6,7 +6,7 @@ import ApiResponse from '../../utils/apiResponse.js';
 import { Teacher } from '../../models/teacher.model.js';
 import { Student } from '../../models/student.model.js';
 import { Course } from '../../models/course.model.js';
-
+import { documentUpload } from '../../helpers/lecture.cloudinary.js';
 
 const cookieOptions = {
     maxAge: 1000 * 60 * 60 * 24 * 30,
@@ -84,7 +84,7 @@ const getTotalStudentsEnrolled = asyncHandler(async (req, res) => {
 
 const createTeacher = asyncHandler(async (req, res) => {
     try {
-        const { studentEmail, studentPassword } = req.body;
+        const { studentEmail, studentPassword, subjects, yof, qualifications, bio } = req.body;
 
         const { adminEmail } = req.user;
 
@@ -115,6 +115,8 @@ const createTeacher = asyncHandler(async (req, res) => {
         if (verifyTeacher) {
             return res.json(new ApiResponse(400, "teacher already created by this email you can't create teacher "));
         }
+        
+        const uploadDoc = await documentUpload(req.file.path);
 
         /// create a entry in admin collection
         console.log(res);
@@ -126,7 +128,12 @@ const createTeacher = asyncHandler(async (req, res) => {
             teacherPhoneNumber: user.studentPhoneNumber,
             adminEmail,
             teacherPassword: user.studentPassword,
-            isActive: true
+            isActive: true,
+            teacherSubjects: subjects,
+            teacherQualifications: qualifications,
+            teacherYearOfExperience: yof,
+            teacherbio: bio,
+            teacherAadharUrl:uploadDoc
         });
 
         /// delete a entry in the student collection
@@ -214,13 +221,11 @@ const showAllCourses = asyncHandler(async (req, res) => {
     }
 });
 
-
-
 const getTeachers = async (req, res) => {
     const { adminEmail } = req.user;
 
     try {
-        const teachers = await Teacher.find({ adminEmail });
+        const teachers = await Teacher.find();
 
         return res.status(200).json(new ApiResponse(200, 'Teachers fetched successfully', teachers));
     } catch (error) {
@@ -248,5 +253,5 @@ export {
     getTeachers,
     showAllCourses,
     getTotalStudentsEnrolled,
-    getCourses,
+    getCourses
 };
