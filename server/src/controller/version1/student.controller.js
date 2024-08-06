@@ -6,6 +6,7 @@ import uploadOnCloudinary from '../../helpers/cloudinary.js';
 import bcrypt from "bcrypt"
 import { Lecture } from '../../models/lecture.model.js';
 import { Course } from '../../models/course.model.js';
+import { Enrollment } from '../../models/enrollment.model.js';
 
 
 const cookieOptions = {
@@ -240,16 +241,35 @@ const getMyCourses = asyncHandler(async (req, res, next) => {
             .json(new ApiError(400, 'Invalid email or password'));
         }
         
-        const courses = await Course.find({
-            studentEmail: studentEmail
-        
-        });
 
-        console.log(courses);
+        const student = await Enrollment.findOne({studentEmail});
+
+        console.log("Student => ", student);
+
+        const studentCourses = student.studentCourses;
+
+        console.log("studentCourses => ", studentCourses);
+
+
+        const enrolledCourses = new Array;
+
+
+        studentCourses.map((cor) => {
+
+            const course =  Course.findOne({ courseCode: cor });
+
+            enrolledCourses.push(course);
+
+        })
+
+        console.log("enrolled Courses => ",enrolledCourses);
+
+        
+        
         
         return res
         .status(200)
-        .json(new ApiResponse(200, 'Student courses fetched successfully' , courses));
+        .json(new ApiResponse(200, 'Student courses fetched successfully' , enrolledCourses));
         
        
     }   

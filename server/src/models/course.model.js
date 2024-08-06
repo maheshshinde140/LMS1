@@ -8,7 +8,8 @@ const CourseSchema = new mongoose.Schema({
 	},
 
 	studentEmail : [{	
-		type: String
+		type: String,
+		
 	}],
 
 	teacherEmail : [{	
@@ -140,7 +141,23 @@ const CourseSchema = new mongoose.Schema({
 	courseDuration: {
 		type: String,
 	},
+
+	courseTools: [{
 		
+		toolName: {
+			type: String
+		},
+		toolImage: {
+			type: String
+		}
+	}],
+		
+	courseTopics: [{
+		
+		courseTodos: [{
+			type: String
+		}]
+	}]
 
 
 }, {timestamps: true});

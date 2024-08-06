@@ -7,6 +7,7 @@ const paymentRouter = express.Router();
 
 
 paymentRouter.route('/createPaymentForCourse').post(
+    isStudentLoggedIn,
     createPaymentForCourse
 )
 

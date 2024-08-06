@@ -23,6 +23,7 @@ function Home() {
         <Faq/>
         <Footer/>
         
+        
     </div>
   )
 }
