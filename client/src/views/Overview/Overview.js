@@ -136,46 +136,55 @@ function Overview() {
 
   const checkoutHandler = async(amount, courseCode) => {
 
-    const {data: {key}} = await axios.get('/api/getkey')
+    try {
+      
+      const {data: {key}} = await axios.get('/api/getkey')
 
-    const data = {
-        amount: amount || 2000,
+      const data = {
+          amount: amount || 2000,
+      }
+
+    
+      const {data:{order}} = await axios.post('/api/payment/createPaymentForCourse', data)
+    
+      console.log(window);
+
+      const options = {
+          key, 
+          amount: amount, 
+          currency: "INR",
+          name: "gaurav ghuge",
+          description: "Test Transaction of softwares",
+
+          image: "https://example.com/your_logo",
+          order_id: order.id,
+          callback_url: `/api/payment/verifyPaymentForCourse/${courseCode}`,
+
+          prefill: {
+              name: "Gaurav ghuge",
+              email: "gauravghuge@microsoft.com",
+              contact: "8767482793"
+          },
+
+          notes: {
+              address: "Razorpay Corporate Office"
+          },
+
+          theme: {
+              color: "#83E633"
+          }
+      };
+
+      let razor = new window.Razorpay(options);
+      
+      razor.open();
+
+    } 
+    catch (error) {
+      console.log(error);
+      navigate("/login");
+
     }
-
-    
-    const {data:{order}} = await axios.post('/api/payment/createPaymentForCourse', data)
-   
-    console.log(window);
-
-    const options = {
-        key, 
-        amount: amount, 
-        currency: "INR",
-        name: "gaurav ghuge",
-        description: "Test Transaction of softwares",
-
-        image: "https://example.com/your_logo",
-        order_id: order.id,
-        callback_url: `/api/payment/verifyPaymentForCourse/${courseCode}`,
-
-        prefill: {
-            name: "Gaurav ghuge",
-            email: "gauravghuge@microsoft.com",
-            contact: "8767482793"
-        },
-
-        notes: {
-            address: "Razorpay Corporate Office"
-        },
-
-        theme: {
-            color: "#83E633"
-        }
-    };
-
-    let razor = new window.Razorpay(options);
-    
-    razor.open();
       
   
   }

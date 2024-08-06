@@ -109,20 +109,26 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
 
         if(enrolled) {
 
-            enrolled.studentCourse.push(studentEmail);
+            enrolled.studentCourses.push(checkCourse.courseCode);
+            await enrolled.save();
         }
-       
-        const enroll = await Enrollment.create({
+        else {
+            const enroll = await Enrollment.create({
 
-            studentEmail,
-            studentCourse: [{
-                courseCode
-            }]
+                studentEmail,
+                studentCourses: [{
+                    courseCode
+                }]
+    
+            })
 
-        })
+            console.log("enroll => ",enroll);
+            await enroll.save();
 
+    
+        }
 
-
+        console.log("enrolled => ", enrolled);
 
 
 
@@ -133,7 +139,6 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
             razorpay_payment_id,
             transactionDate : Date.now(),
             razorpay_signature,
-            amount,
             status : 'paid'
             
         })
