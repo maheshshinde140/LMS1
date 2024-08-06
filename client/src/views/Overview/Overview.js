@@ -5,30 +5,36 @@ import "./Overview.css";
 import Companies from "../../components/Companies/Companies"
 import Faq from "../../components/Faq/Faq"
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Overview() {
   const [activeCourse, setActiveCourse] = useState(null);
 
-  const category = [
-
-    {
+  const [category, setCategory] = useState({
       id: 1,
       image:
         "https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d15cw65ipctsrr.cloudfront.net/41/4d3d7c05fb42729c9d90352e072ca3/1060x596_GCC-photos_Karrim.png?auto=format%2Ccompress%2C%20enhance&dpr=1&w=320&h=180&fit=crop&q=50&crop=faces",
-      title: "Data Science & Analytics",
+      courseName: "Data Science & Analytics",
+      courseDuration: "2 months",
       btn1: "Backend dev",
       btn2: "Frontend dev",
-      price: "50",
-      coursesDescription:
+      coursePrice: "50",
+      courseDescription
+:
         "Learn data science and analytics with our comprehensive courses.",
-      logoimage:
+      courseThumbnail
+:
         "https://ik.imagekit.io/sheryians/BackEnd%20Donation/nodeJs_0PymuvVgr.jpg",
       projects: "7",
+      courseTeacher: "",
+      
+      
+
       assignment: "70+",
       lectures: "160",
-    },
-  ];
+  })
+ 
 
 
   const courseContent = {
@@ -56,12 +62,15 @@ function Overview() {
     ],
   };
 
+  
+
 
   const tools = [
     {
       name: "Node.js",
       image: "https://nodejs.org/static/images/logo.svg",
     },
+
     {
       name: "VS Code",
       image: "https://code.visualstudio.com/assets/images/code-stable.png",
@@ -80,26 +89,37 @@ function Overview() {
       image:
         "https://www.docker.com/wp-content/uploads/2022/03/vertical-logo-monochromatic.png",
     },
+
   ];
 
 
   const {courseCode} = useParams();
   
+  const type = useSelector((state) => state.user.type)
 
+  console.log("type => ", type);
+
+  const navigate = useNavigate();
 
   const fetchCourse = async(e) => {
 
     try {
       
-      const response = await axios.get(`/api/course//getCourseByCode/${courseCode}`);
+      
+      const response = await axios.get(`/api/course/getCourseByCode?courseCode=${courseCode}`);
 
       console.log(" response => ", response);
+
+      console.log("data => ", response.data);
+      alert(response.data.message);
+
+      setCategory(response.data.data)
 
 
     } 
     catch (error) {
-      
       console.log(error);
+      alert("could not fetch the course");
     }
 
   }
@@ -109,53 +129,62 @@ function Overview() {
 
   useEffect(() => {
     fetchCourse();
-  })
+  },[])
 
 
 
 
   const checkoutHandler = async(amount, courseCode) => {
 
-    const {data: {key}} = await axios.get('/api/getkey')
+    try {
+      
+      const {data: {key}} = await axios.get('/api/getkey')
 
-    const data = {
-        amount: amount || 2000,
+      const data = {
+          amount: amount || 2000,
+      }
+
+    
+      const {data:{order}} = await axios.post('/api/payment/createPaymentForCourse', data)
+    
+      console.log(window);
+
+      const options = {
+          key, 
+          amount: amount, 
+          currency: "INR",
+          name: "gaurav ghuge",
+          description: "Test Transaction of softwares",
+
+          image: "https://example.com/your_logo",
+          order_id: order.id,
+          callback_url: `/api/payment/verifyPaymentForCourse/${courseCode}`,
+
+          prefill: {
+              name: "Gaurav ghuge",
+              email: "gauravghuge@microsoft.com",
+              contact: "8767482793"
+          },
+
+          notes: {
+              address: "Razorpay Corporate Office"
+          },
+
+          theme: {
+              color: "#83E633"
+          }
+      };
+
+      let razor = new window.Razorpay(options);
+      
+      razor.open();
+
+    } 
+    catch (error) {
+      console.log(error);
+      navigate("/login");
+
     }
-
-    
-    const {data:{order}} = await axios.post('/api/payment/createPaymentForCourse', data)
-   
-    console.log(window);
-
-    const options = {
-        key, 
-        amount: amount, 
-        currency: "INR",
-        name: "gaurav ghuge",
-        description: "Test Transaction of softwares",
-
-        image: "https://example.com/your_logo",
-        order_id: order.id,
-        callback_url: `/api/payment/verifyPaymentForCourse/${courseCode}`,
-
-        prefill: {
-            name: "Gaurav ghuge",
-            email: "gauravghuge@microsoft.com",
-            contact: "8767482793"
-        },
-
-        notes: {
-            address: "Razorpay Corporate Office"
-        },
-
-        theme: {
-            color: "#83E633"
-        }
-    };
-
-    let razor = new window.Razorpay(options);
-    
-    razor.open();
       
   
   }
@@ -166,16 +195,21 @@ function Overview() {
     <div>
       <Navbar />
 
-      { category.map((category) => (
+      
 
         <div key={category.id}>
+
           <div className="text-center my-3">
             <h1 className="text-5xl font-bold text-cyan-500">
-              Welcome to Our {category.title}
+              Welcome to Our {category.courseName}
             </h1>
-            {/* <p className="text-xl text-gray-300 mt-4">
-          Master Backend Development with Node.js, Express.js, and MongoDB
-        </p> */}
+
+            {/* 
+              <p className="text-xl text-gray-300 mt-4">
+                Master Backend Development with Node.js, Express.js, and MongoDB
+              </p> 
+            */}
+
           </div>
 
           <div className="bg-gradient-to-b from-gray-800 to-cyan-850 text-white rounded-lg shadow-lg overflow-hidden my-5 p-5 mx-5 sm:mx-10">
@@ -183,7 +217,7 @@ function Overview() {
             <div className="flex flex-col lg:flex-row justify-around items-center p-5 lg:p-20">
               <div className="flex-1 mb-5 lg:mb-0">
                 <p className="text-3xl sm:text-4xl font-bold">
-                  {category.title}
+                  {category.courseName}
                 </p>
                 <p className="text-xl sm:text-2xl mt-7 font-semibold">
                   <span className="bg-gray-700 rounded p-2 pl-4 pr-4">
@@ -195,24 +229,27 @@ function Overview() {
                 </p>
                 <p className="text-4xl sm:text-5xl font-bold mt-14">
                   Only:{" "}
-                  <span className=" text-cyan-400">${category.price}</span>
+                  <span className=" text-cyan-400"> 💵 ₹ {category.coursePrice}</span>
                 </p>
 
                 <button 
-                  onClick={() => checkoutHandler(2000, courseCode)}
+                  onClick={type === "student" ? () => checkoutHandler(category.coursePrice, courseCode) : navigate("/login") }
+
+                  
                   className="mt-8 p-4 bg-cyan-500 rounded hover:bg-cyan-850 font-bold text-2xl mb-5">
                   Buy Now - Start Learning
                 </button>
 
                 <p className="text-base sm:text-2xl font-semibold mt-2">
-                  {category.coursesDescription}
+                  {category.courseDescription
+}
                 </p>
               </div>
 
               <div className="flex-1">
                 <img
-                  src={category.image}
-                  alt={category.title}
+                  src={category.courseThumbnail.private_url}
+                  alt={category.courseName}
                   className="h-48 sm:h-72 lg:ml-20 rounded-lg"
                 />
               </div>
@@ -222,8 +259,8 @@ function Overview() {
 
           <div className="flex flex-col mt-10 items-center">
             <img
-              src={category.logoimage}
-              alt={category.title}
+              src={category.courseThumbnail.private_url}
+              alt={category.courseName}
               className="h-48 sm:h-72 lg:ml-20 rounded-lg mb-10"
             />
           </div>
@@ -310,7 +347,8 @@ function Overview() {
             >
               {activeCourse === "mongodb" ? "Hide" : "Show"} MongoDB Content
             </button>
-            {activeCourse === "mongodb" && (
+            {
+              activeCourse === "mongodb" && (
               <div className="p-4 bg-gray-800  text-cyan-400 rounded-lg mt-2 w-11/12 text-2xl font-bold">
                 <h2 className="text-3xl mb-4">MongoDB Course Content</h2>
                 <ul className="list-disc text-white list-inside space-y-2">
@@ -351,7 +389,6 @@ function Overview() {
         </div>
 
 
-       ))}
       <Companies/>
 
       {/* <Faq/> */}

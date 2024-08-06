@@ -213,7 +213,7 @@ const showAllCourses = asyncHandler(async (req, res) => {
     try {
         const course = await Course.find({});
 
-        console.log(course);
+        
 
         return res.status(200).json(new ApiResponse(200, 'Courses fetched successfully', course));
     } catch (error) {

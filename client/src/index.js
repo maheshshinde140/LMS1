@@ -35,6 +35,13 @@ import MyCourses from "./Student/MyCourses/MyCourses";
 import UploadVideo from "./Teacher/UploadVideo/UploadVideo";
 import TeacherProfile from "./Teacher/YourProfile/teacherProfile";
 import TeacherMycourses from "./Teacher/TeacherMycourses/TeacherMycourses";
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:5000",
+});
+
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(

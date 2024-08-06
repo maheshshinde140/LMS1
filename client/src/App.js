@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./views/Home/Home";
 import { ProtectedAdminRoute } from "./Provider/ProtectecAdminRoutes";
 
+
 function App() {
   return (
     <div>

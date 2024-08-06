@@ -6,6 +6,7 @@ import {useParams} from "react-router-dom"
 
 function MyCourses() {
   const [courses, setCourses] = useState([{
+    
     _id: "",
     courseName : "",
     adminEmail:"",
@@ -28,13 +29,22 @@ function MyCourses() {
   
   const fetchCourses = async () => {
     try {
-      const response = await axios.get(`api/course/${courseCode}`);
+      const response = await axios.get(`/api/student/getMyCourses`);
       console.log("get all courses response=>", response);
       console.log("response.data =>", response.data);
       console.log("response.data.data =>", response.data.data);
 
+      if(response.data.data.length === 0){
+        return (
+          <div> 
+            <p> you have not purchased any course yet</p>
+          </div>
+        )
+      }
+
       setCourses(response.data.data); // assuming your data is in response.data.data
-    } catch (error) {
+    } 
+    catch (error) {
       console.log(error);
     }
   };

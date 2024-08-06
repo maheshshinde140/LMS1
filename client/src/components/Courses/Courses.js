@@ -73,12 +73,12 @@ function Courses() {
 
 
      
-     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 ml-20">
+     <div className="flex flex-wrap gap-12">
 
         {courses.map((course) => (
           <div
             key={course._id}
-            className="bg-gray-700  text-white rounded-lg shadow-lg overflow-hidden shadow-gray-200"
+            className="bg-gray-700 w-[30%] text-white rounded-lg shadow-lg overflow-hidden shadow-gray-200"
           >
             <img
               src={course.courseThumbnail.private_url}

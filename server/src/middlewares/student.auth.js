@@ -7,14 +7,31 @@ const isStudentLoggedIn = (req, res, next) => {
 
     if(!studentToken) {
 
-        return res.status(401).json(new ApiError(401, 'Student not logged in'));
+        return res.status(401)
+        .json(new ApiError(401, 'Student not logged in'))
+        .redirect("/login")
     }
 
     try {
 
         const decodedToken = jwt.verify(studentToken, process.env.JWT_SECRET);
 
+        if(!decodedToken) {
+
+            return res
+            .status(400)
+            .redirect("/login")
+        }
+
         req.user = decodedToken;
+
+        const {studentEmail} = req.user;
+
+        if(!studentEmail) {
+            return res.status(401)
+            .json(new ApiError(401, 'Student not logged in'))
+            .redirect("/login")
+        }
 
         next();
 
