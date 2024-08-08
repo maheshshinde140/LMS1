@@ -34,7 +34,7 @@ const LectureSchema = new Schema({
         type: Number,
     },
 
-    teacherMail: {
+    teacherEmail: {
         type: String,
         default: '',
     },

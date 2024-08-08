@@ -133,7 +133,7 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
 
 
         const payment = await Payment.create({
-            studentMail : studentEmail,
+            studentEmail : studentEmail,
             courseCode,
             razorpay_order_id,
             razorpay_payment_id,
@@ -148,7 +148,7 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
 
        return res
            .status(200)
-           .redirect(`http://localhost:3000`)
+           .redirect(`http://localhost:3000/payment/${payment.id}`);
            
     } 
 
