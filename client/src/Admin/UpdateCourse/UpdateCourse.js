@@ -41,6 +41,9 @@ function UpdateCourse() {
         "Content-Type": "multipart/form-data",
       },
     });
+    if(res.status === 200 || res.status === 201){
+      alert("updated the course")
+    }
     console.log(res);
   };
 
@@ -67,13 +70,18 @@ function UpdateCourse() {
             <select
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               id="courseName"
-              onClick={(e) =>
-                setCourseData({ ...courseData, courseName: e.target.value })
-              }
+              onClick={(e) => {
+                const course = TotalCourse.filter(
+                  (name) => name !== e.target.value
+                );
+                console.log(e.target.value);
+                console.log(course);
+                setCourseData( ...course );
+              }}
             >
               {TotalCourse.map((course, i) => {
                 return (
-                  <option key={i} value={course.courseName}>
+                  <option className="" key={i} value={course.courseName}>
                     {course.courseName}
                   </option>
                 );
@@ -114,6 +122,7 @@ function UpdateCourse() {
               id="courseDescription"
               placeholder="Enter course description"
               rows="4"
+              value={courseData.courseDescription}
               onChange={(e) =>
                 setCourseData({
                   ...courseData,
@@ -136,6 +145,7 @@ function UpdateCourse() {
               type="number"
               id="coursePrice"
               placeholder="Enter course price"
+              value={courseData.coursePrice}
               onChange={(e) =>
                 setCourseData({ ...courseData, coursePrice: e.target.value })
               }
@@ -155,6 +165,7 @@ function UpdateCourse() {
               type="number"
               id="courseDuration"
               placeholder="Enter course duration in minutes"
+              value={courseData.courseDuration}
               onChange={(e) =>
                 setCourseData({ ...courseData, courseDuration: e.target.value })
               }
@@ -173,6 +184,7 @@ function UpdateCourse() {
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="date"
               id="startDate"
+              value={courseData.courseStartDate}
               onChange={(e) =>
                 setCourseData({
                   ...courseData,
@@ -194,6 +206,7 @@ function UpdateCourse() {
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="date"
               id="endDate"
+              value={courseData.courseEndDate}
               onChange={(e) =>
                 setCourseData({ ...courseData, courseEndDate: e.target.value })
               }
@@ -212,6 +225,7 @@ function UpdateCourse() {
               <select
                 className="w-full text-black px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 id="courseTeacher"
+                value={courseData.courseTeacher}
                 onChange={(e) =>
                   setCourseData({
                     ...courseData,
@@ -246,6 +260,7 @@ function UpdateCourse() {
               Course Thumbnail
             </label>
             <input
+              
               type="file"
               accept="image/png, image/jpeg"
               onChange={(e) =>
@@ -255,6 +270,7 @@ function UpdateCourse() {
                 })
               }
             />
+            {courseData.courseThumbnail && <img className="my-4" width={200} height={200} alt="" src={`${courseData.courseThumbnail.private_url}`} />}
           </div>
 
           {/* Submit Button */}

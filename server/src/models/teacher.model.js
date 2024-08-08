@@ -17,7 +17,9 @@ const TeacherSchema = new mongoose.Schema(
         adminEmail: {
             type: String
         },
-
+        teacherbio: {
+            type: String
+        },
         teacherAge: {
             type: Number
             // required: true,
@@ -57,7 +59,23 @@ const TeacherSchema = new mongoose.Schema(
             {
                 type: String
             }
-        ]
+        ],
+        teacherYearOfExperience: {
+            type: Number
+        },
+        teacherQualifications: [
+            {
+                type: String
+            }
+        ],
+        teacherAadharUrl: {
+            public_id: {
+                type: String
+            },
+            private_id: {
+                type: String
+            }
+        }
 
         // course: [{
         //     type: mongoose.Schema.Types.ObjectId,

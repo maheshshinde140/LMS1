@@ -31,8 +31,7 @@ const client = new S3Client({
 const createCourse = asyncHandler(async (req, res) => {
     const { adminEmail } = req.user;
 
-    console.log("req.user => ", req.user);
-
+    console.log('req.user => ', req.user);
 
     const {
         courseName,
@@ -43,11 +42,12 @@ const createCourse = asyncHandler(async (req, res) => {
         courseTeacher,
         courseEndDate,
         courseStartDate,
-        courseDuration
+        courseDuration,
+        courseTools,
+        courseTechnology
     } = req.body;
 
     // const { courseName, courseDescription, coursePrice, courseCode,courseTeacher,courseEndDate, courseStartDate, courseDuration } = req.body;
-
 
     // if(!courseName || !courseDescription || !coursePrice || !courseCode || !courseTeacher || !courseStartDate ||!courseEndDate|| !courseDuration) {
 
@@ -58,15 +58,13 @@ const createCourse = asyncHandler(async (req, res) => {
 
     console.log('req.file => ', req.file);
 
-    const admin = await Admin.findOne({adminEmail});
+    const admin = await Admin.findOne({ adminEmail });
 
-    if(!admin) {
+    if (!admin) {
         return res.status(404).json(new ApiError(404, 'Admin not found'));
     }
 
-
-    console.log("req.file => ", req.file);
-
+    console.log('req.file => ', req.file);
 
     console.log(req.body);
     try {
@@ -93,7 +91,8 @@ const createCourse = asyncHandler(async (req, res) => {
             courseCode,
             courseStartDate,
             courseEndDate,
-
+            courseTools,
+            courseTechnology,
             adminEmail: adminEmail,
 
             adminEmail,
@@ -123,7 +122,9 @@ const updateCourse = asyncHandler(async (req, res) => {
         courseSubject,
         courseTeacher,
         courseStartDate,
-        courseDuration
+        courseDuration,
+        courseCode,
+        courseEndDate
     } = req.body;
 
     console.log('req.body => ', req.body);
@@ -150,11 +151,14 @@ const updateCourse = asyncHandler(async (req, res) => {
         }
 
         if (courseTeacher) {
-            course.courseTeacher.push({ courseTeacher });
+            course.courseTeacher = courseTeacher;
         }
 
         if (courseStartDate) {
             course.courseStartDate = courseStartDate;
+        }
+        if (courseEndDate) {
+            course.courseEndDate = courseEndDate
         }
 
         if (courseDuration) {
@@ -197,7 +201,6 @@ const getCourseByCode = asyncHandler(async (req, res) => {
 
     // const { courseCode } = req.params;
 
-
     if (!courseCode) {
         return res.status(400).json(new ApiError(405, 'Missing required fields'));
     }
@@ -239,8 +242,6 @@ const deleteCourse = asyncHandler(async (req, res) => {
         return res.status(500).json(new ApiError(500, error.message));
     }
 });
-
-
 
 const uploadLectures = asyncHandler(async (req, res) => {
     const videoSegmentsPath = [];
