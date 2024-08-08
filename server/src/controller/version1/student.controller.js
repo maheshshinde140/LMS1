@@ -160,26 +160,14 @@ const getMyCourses = asyncHandler(async (req, res, next) => {
 
         console.log("studentCourses => ", studentCourses);
 
-
-        const enrolledCourses = new Array;
-
-
-        studentCourses.map((cor) => {
-
-            const course =  Course.findOne({ courseCode: cor });
-
-            enrolledCourses.push(course);
-
-        })
+        const enrolledCourses = await Course.find({courseCode: {$in: studentCourses}});
 
         console.log("enrolled Courses => ",enrolledCourses);
-
-        
         
         
         return res
         .status(200)
-        .json(new ApiResponse(200, 'Student courses fetched successfully' , enrolledCourses));
+        .json(new ApiResponse(200, 'Student courses fetched successfully', enrolledCourses));
         
        
     }   
