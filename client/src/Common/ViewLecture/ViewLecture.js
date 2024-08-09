@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import Comment from "../../Tabs/Comment";
 import Attachment from "../../Tabs/Attachment";
 import Doubts from "../../Tabs/Doubts";
 import Refrence from "../../Tabs/Refrence";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function ViewLecture() {
   
-  
+  const {courseCode} = useParams();
 
   const [activeVideo, setActiveVideo] = useState(null);
   const [playing, setPlaying] = useState(false);
@@ -34,14 +36,16 @@ function ViewLecture() {
 
   
   const [lectureList , setLectureList]= useState([{
-    lectureName: "",
-    lectureDescription: "",
-    teacherName: "",
-    lectureImage: "",
+    lectureName: "Lecture Name",
+    lectureDescription: "Lecture Description",
+    teacherName: "Teacher Name",
+    lectureImage: "https://www.w3schools.com/w3images/avatar.png",
+    
 
   }]);
 
   const [lectureDetails , setLectureDetails]= useState([{
+
     lectureName: "",
     lectureDescription: "",
     teacherName: "",
@@ -52,7 +56,39 @@ function ViewLecture() {
   }]);
 
 
+  const fetchLectureList = async () => {
 
+    try {
+    
+      const response = await axios.get(`/api/student/getLecturesByCourse/${courseCode}`);
+
+      console.log(response);
+      
+
+      
+    } 
+    catch (error) {
+      
+      console.log(error);
+    }
+  }
+
+
+
+  const fetchLectureDetails = async (lectureCode) => {
+    try {
+      const response = await axios.get(`/api/student/getLectureDetails/${lectureCode}`);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+useEffect(() => {
+  fetchLectureList();
+},[]);
 
 
 
@@ -155,6 +191,7 @@ function ViewLecture() {
           <li
             key={i}
             className="flex flex-col md:flex-row items-center shadow-lg gap-5 md:gap-10 px-5 md:px-10 bg-gray-800 rounded-lg hover:bg-slate-400"
+            onClick={() => fetchLectureDetails()}
           >
             <div className="flex-shrink-0">
               <button onClick={() => playVideo(data)}>
