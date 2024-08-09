@@ -79,7 +79,8 @@ const studentLogin = asyncHandler(async (req, res, next) => {
 
 const studentUpdate = asyncHandler(async (req, res, next) => {
     const { studentEmail } = req.user;
-    const { studentFullName, studentAge, studentGender } = req.body;
+
+    const { studentFullName, studentAge, studentGender, studentAddress, studentPhoneNumber } = req.body;
     try {
         const user = await Student.findOne({ studentEmail: studentEmail });
 
@@ -95,6 +96,14 @@ const studentUpdate = asyncHandler(async (req, res, next) => {
             user.studentFullName = studentFullName;
         }
 
+        if (studentAddress) {
+            user.studentAddress = studentAddress;
+        }
+
+        if (studentPhoneNumber) {
+            user.studentPhoneNumber = studentPhoneNumber;
+        }
+
         if (req.file) {
             console.log(req.file);
             const uploadedFile = await uploadOnCloudinary(req.file.path);
@@ -105,8 +114,11 @@ const studentUpdate = asyncHandler(async (req, res, next) => {
 
         await user.save();
 
-        return res.status(200).json(new ApiResponse(200, 'Student updated successfully', user));
-    } catch (error) {
+        return res
+        .status(200)
+        .json(new ApiResponse(200, 'Student updated successfully', user));
+    } 
+    catch (error) {
         return res.status(400).json(new ApiError(400, error.message));
     }
 });

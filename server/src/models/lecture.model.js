@@ -5,6 +5,11 @@ const LectureSchema = new Schema({
 	lectureName: {
 		type: String,
 	},
+
+    lectureCode: {
+        type: String,
+        
+    },
 	
     courseCode: {
         type: String,
