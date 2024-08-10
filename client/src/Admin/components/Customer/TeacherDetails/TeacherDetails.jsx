@@ -109,6 +109,7 @@ const TeacherDetails = ({ teacher }) => {
                 ))}
             </div>
           </div>
+         
         </div>
       </div>
     </div>

@@ -158,7 +158,7 @@ const updateCourse = asyncHandler(async (req, res) => {
             course.courseStartDate = courseStartDate;
         }
         if (courseEndDate) {
-            course.courseEndDate = courseEndDate
+            course.courseEndDate = courseEndDate;
         }
 
         if (courseDuration) {
@@ -193,14 +193,11 @@ const getCourses = asyncHandler(async (req, res) => {
     }
 });
 
-
 const getCourseByCode = asyncHandler(async (req, res) => {
-
     const { courseCode } = req.query || req.params;
 
-
     // const { courseCode } = req.params;
-
+    console.log('Coure Code', courseCode);
     if (!courseCode) {
         return res.status(400).json(new ApiError(405, 'Missing required fields'));
     }
@@ -217,9 +214,6 @@ const getCourseByCode = asyncHandler(async (req, res) => {
         return res.status(500).json(new ApiError(500, error.message));
     }
 });
-
-
-
 
 const deleteCourse = asyncHandler(async (req, res) => {
     const { courseId } = req.body;
@@ -355,8 +349,6 @@ const uploadLectures = asyncHandler(async (req, res) => {
         return res.status(500).json(new ApiError(500, error.message));
     }
 });
-
-
 
 const sendSignedUrl = async (req, res) => {
     const courseCode = 'AIDS';
