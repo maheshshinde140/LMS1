@@ -71,9 +71,6 @@ courseRouter.route('/showAllCourses').get(
 
 
 
-
-
-
 // courseRouter.route(`/uploadLectures`).post(
     
 //     isTeacherLogin,

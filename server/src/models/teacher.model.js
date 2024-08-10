@@ -72,7 +72,15 @@ const TeacherSchema = new mongoose.Schema(
             public_id: {
                 type: String
             },
-            private_id: {
+            private_url: {
+                type: String
+            }
+        },
+        teacherPanCardUrl: {
+            public_id: {
+                type: String
+            },
+            private_url: {
                 type: String
             }
         }
