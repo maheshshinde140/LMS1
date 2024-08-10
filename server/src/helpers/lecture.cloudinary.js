@@ -84,10 +84,10 @@ const lectureUploadOnCloudinary = async path => {
     }
 };
 
-const documentUpload = async path => {
+const documentUpload = async (path,email) => {
     try {
         const result = await cloudinary.uploader.upload(path, {
-            path: 'upload/teachers/',
+            path: `upload/teachers/${email}`,
             resource_type: 'auto',
             upload_preset: 'default'
         });
