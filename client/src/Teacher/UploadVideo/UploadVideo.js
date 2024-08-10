@@ -81,14 +81,20 @@ const UploadVideo = () => {
     //       video: videoUrl,
     //       duration: `${minutes}m ${seconds}s`,
     //     });
+
+
     let data = new FormData();
+
     try {
       // Get pre-signed URL from backend
       const response = await axios.post(
         `/api/course/uploadLectures?courseCode=${courseCode}`
       );
+
+
       const signedUrl = response.data.signedurl;
       seteSignedUrl(signedUrl);
+
       console.log("response 1=>", response);
       // let config = {
       //   method: "put",
@@ -109,6 +115,8 @@ const UploadVideo = () => {
           Host: "videostreaming31.s3.eu-north-1.amazonaws.com",
         },
       });
+
+
       console.log(res.data);
 
       // Upload video to S3 using pre-signed URL
@@ -121,9 +129,12 @@ const UploadVideo = () => {
       //   transformRequest: [(data) => data],
       // });
       // console.log("response 2=>", response2);
-    } catch (error) {
+    } 
+    
+    catch (error) {
       console.error("Error uploading video:", error);
     }
+
   }
 
   // video.src = videoUrl;
@@ -152,6 +163,7 @@ const UploadVideo = () => {
     };
 
     try {
+      
       const response = await axios.post(
         `/api/course/uploadLectures?courseCode=${courseCode}`
       );
@@ -162,6 +174,8 @@ const UploadVideo = () => {
     }
   };
 
+
+  
   const filterVideosByDuration = (duration) => {
     setFilterDuration(duration);
   };

@@ -19,12 +19,13 @@ function MyCourses() {
     uploadCoursesLink : "/uploadvideo",
     uploadcourses:"Upload Lecture ",
     courseCode:"",
+    courseThumbnail:"",
    
 
 
   }]);
 
-  const {courseCode}=useParams();
+  const { courseCode }=useParams();
 
   
   const fetchCourses = async () => {
@@ -65,12 +66,13 @@ function MyCourses() {
           {courses.map((course) => (
             <div
               key={course._id}
-              className="bg-black text-white rounded-lg shadow-lg overflow-hidden"
+              className="bg-black text-white rounded-lg shadow-lg w-[40%] overflow-hidden"
             >
               <img
-                src={course.image}
+                src={course.courseThumbnail.private_url}
                 alt={course.courseName}
-                className="w-full h-70 object-cover"
+                className="w-full h-[250px]"
+                height="200px"
               />
 
               <div className="p-5">

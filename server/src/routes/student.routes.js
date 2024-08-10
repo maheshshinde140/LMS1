@@ -47,7 +47,7 @@ studentRouter.route('/getLecturesByCourse/:courseCode').get(
 studentRouter.route('/update').put(
     
     isStudentLoggedIn,
-    upload.none(),
+    upload.single('studentAvatar'),
     studentUpdate
 );
 
@@ -61,6 +61,11 @@ studentRouter.route('/delete').delete(
 );
 
 
+studentRouter.route('/getLecturesByCourse/:courseCode').get(
+
+    
+    getLecturesByCourse
+)
 
 
 
