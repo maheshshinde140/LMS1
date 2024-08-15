@@ -3,6 +3,7 @@ import {Link} from "react-router-dom"
 import axios from "axios"
 
 import {useState, useEffect} from "react"
+import Navbar from "../../components/Navbar/Navbar";
 
  
 function TeacherMycourses() {
@@ -46,53 +47,68 @@ function TeacherMycourses() {
   }, [])
 
   return (
-    <div className="min-h-screen  p-10">
-      <h1 className="text-white text-6xl ml-20 font-bold mb-10">
-        My Courses.
-      </h1>
-     <Link to="/overview">
-     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 ml-20">
-        {courses.map((course) => (
-          <div
-            key={course._id}
-            className="bg-black text-white rounded-lg shadow-lg overflow-hidden"
-          >
-              <img src={course.courseThumbnail}
-              alt={course.title} className="w-full h-70 object-cover" />
 
-            {/* <img
-              src={course.courseImage}
-              alt={course.title}
-              className="w-full h-70 object-cover"
-            /> */}
-            <div className="p-5">
-              <h2 className="text-2xl font-bold mt-4 mb-2">{course.courseName}</h2>
-              <p className="text-gray-400 mb-5">{course.courseDescription}</p>
-              <hr />
-              <button className="text-cyan-400 mt-7 font-semibold text-xl ">
-                {course.courseLanguges}
-              </button>
+    <div>
+    
+      <Navbar />
 
-              <div className="mt-7 flex justify-between mb-2  text-gray-300  text-xl font-bold">
-                <div> By {course.adminEmail}</div>
+
+      <div className="min-h-screen  p-10">
+
+        
+
+        <h1 className="text-white text-6xl ml-20 font-bold mb-10">
+          My Courses.
+        </h1>
+    
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 ml-20">
+          {courses.map((course) => (
+            <div
+              key={course._id}
+              className="bg-black text-white rounded-lg shadow-lg overflow-hidden"
+            >
+                <img 
+                  src={course.courseThumbnail?.private_url}
+                  alt={course.title} 
+                  className="w-full h-[250px]"
+                  height="200px"
+                />
+
+              {/* <img
+                src={course.courseImage}
+                alt={course.title}
+                className="w-full h-70 object-cover"
+              /> */}
+              <div className="p-5">
+                <h2 className="text-2xl font-bold mt-4 mb-2">{course.courseName}</h2>
+                
+                <hr />
+                <button className="text-cyan-400 mt-7 font-semibold text-xl ">
+                  {course.courseLanguges}
+                </button>
+
+                <div className="mt-7 flex justify-between mb-2  text-gray-300  text-xl font-bold">
+                  <div> By {course.adminEmail}</div>
+                </div>
+              </div>
+              <div className="flex justify-center space-x-4 text-2xl mb-2">
+                <Link to={`/teacher/ViewLecture/${course.courseCode}`}>
+                  <button className="bg-cyan-400 text-black font-bold p-2 rounded">
+                    View Lectures
+                  </button>
+                </Link>
+                <Link to={`/uploadvideo/${course.courseCode}`}>
+                  <button className="bg-cyan-400 text-black font-bold p-2 rounded">
+                  Upload Lectures
+                  </button>
+                </Link>
               </div>
             </div>
-            <div className="flex justify-center space-x-4 text-2xl mb-2">
-              <Link to={`/teacher/ViewLecture/${course.courseCode}`}>
-                <button className="bg-cyan-400 text-black font-bold p-2 rounded">
-                  View Lectures
-                </button>
-              </Link>
-              <Link to={`/uploadvideo/${course.courseCode}`}>
-                <button className="bg-cyan-400 text-black font-bold p-2 rounded">
-                 Upload Lectures
-                </button>
-              </Link>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
+    
       </div>
-     </Link>
+
     </div>
   );
 }
