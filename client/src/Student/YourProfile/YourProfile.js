@@ -70,6 +70,7 @@ const YourProfile = () => {
     } 
     catch (error) {
       console.log(error);
+      window.location.href="/login";
     }
   };
 
@@ -110,6 +111,7 @@ const YourProfile = () => {
       } 
       catch (error) {
         console.log(error);
+        window.location.href="/login";
       }
 
 

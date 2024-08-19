@@ -47,6 +47,7 @@ function MyCourses() {
     } 
     catch (error) {
       console.log(error);
+      window.location.href="/login";
     }
   };
 

@@ -46,7 +46,7 @@ courseRouter.route('/getCourses').get(
 
 courseRouter.route('/getCourseByCode').get(
     
-    isAdminLogin,
+    
     upload.none(),
     getCourseByCode
 )
