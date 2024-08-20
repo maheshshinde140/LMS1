@@ -12,11 +12,11 @@ const CourseSchema = new mongoose.Schema(
             }
         ],
 
-        teacherEmail: [
-            {
-                type: String
-            }
-        ],
+        teacherEmail: [{
+
+            type: String
+            
+        }],
 
         courseName: {
             type: String

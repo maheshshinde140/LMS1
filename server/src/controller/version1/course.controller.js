@@ -16,6 +16,7 @@ import { dirname } from 'path';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import dontenv from 'dotenv';
+import { Teacher } from '../../models/teacher.model.js';
 dontenv.config();
 
 const client = new S3Client({
@@ -98,13 +99,22 @@ const createCourse = asyncHandler(async (req, res) => {
             adminEmail,
 
             courseDuration,
-            courseTeacher: courseTeacher,
+            courseTeacher: [ courseTeacher ],
 
             courseThumbnail: {
                 public_id: response.public_id,
                 private_url: response.secure_url
             }
         });
+
+
+        // const teacher = await Teacher.findOne({ teacherEmail: courseTeacher });
+
+        // teacher.teacherCourseCode.push(courseCode);
+
+
+
+
 
         console.log('After course', course);
 

@@ -10,7 +10,7 @@ const TeacherProfile = () => {
   const [profile, setProfile] = useState({
     teacherFullName: "",
     teacherEmail: "",
-    teacherPhone: "",
+    teacherPhoneNumber: "",
     teacherAddress: "",
     teacherAge: "",
     teacherGender: "",
@@ -34,7 +34,7 @@ const TeacherProfile = () => {
     const body = {
       teacherFullName: profile.teacherFullName,
       teacherEmail: profile.teacherEmail,
-      teacherPhone: profile.teacherPhone,
+      teacherPhoneNumber: profile.teacherPhoneNumber,
       teacherGender: profile.teacherGender,
       teacherAge: profile.teacherAge,
       teacherAddress: profile.teacherAddress,
@@ -50,10 +50,12 @@ const TeacherProfile = () => {
     };
 
     try {
-      // if (body) {
-      //   const response = await axios.put(`/api/teacher/update`, body, config);
-      //   console.log("response =>", response);
-      // }
+      
+      const response = await axios.put(`/api/teacher/update`, profile , config);
+
+      console.log("response =>", response);
+
+
 
       if (aadhar) {
         const form = new FormData();
@@ -74,7 +76,8 @@ const TeacherProfile = () => {
         );
         console.log("Pan resp", panResponse);
       }
-    } catch (error) {
+    } 
+    catch (error) {
       console.log(error);
     }
   };
@@ -179,6 +182,7 @@ const TeacherProfile = () => {
                 <h3 className="text-white font-bold">Subjects</h3>
 
                 <div className="flex gap-4 my-6">
+
                   <label className="flex gap-0">
                     <input
                       type="checkbox"
@@ -189,6 +193,8 @@ const TeacherProfile = () => {
                     />{" "}
                     Web Development{" "}
                   </label>
+
+
                   <label className="flex gap-0">
                     <input
                       type="checkbox"
@@ -199,6 +205,7 @@ const TeacherProfile = () => {
                     />{" "}
                     AIDS{" "}
                   </label>
+
                   <label className="flex gap-0">
                     <input
                       type="checkbox"
@@ -209,6 +216,7 @@ const TeacherProfile = () => {
                     />{" "}
                     Data Analytics{" "}
                   </label>
+
                   <label className="flex gap-0">
                     <input
                       type="checkbox"
@@ -229,7 +237,9 @@ const TeacherProfile = () => {
                     />{" "}
                     GenAi{" "}
                   </label>
+
                 </div>
+
               </div>
               <div className="form-row">
                 <div className="form-group">
@@ -237,7 +247,7 @@ const TeacherProfile = () => {
                   <input
                     type="tel"
                     name="teacherPhone"
-                    value={profile.teacherPhone}
+                    value={profile.teacherPhoneNumber}
                     onChange={handleChange}
                   />
                 </div>
@@ -304,6 +314,7 @@ const TeacherProfile = () => {
                     <label>aadhar card</label>
                     <input type="file" placeholder="aadhar card" />
                   </span> */}
+
                 </div>
               </div>
               <button type="submit" className="save-changes">

@@ -53,6 +53,7 @@ const TeacherSchema = new mongoose.Schema(
 
         teacherPhoneNumber: {
             type: String
+            
         },
 
         teacherSubjects: [

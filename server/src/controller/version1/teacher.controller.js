@@ -19,10 +19,14 @@ const teacherUpdate = asyncHandler(async (req, res) => {
         req.body;
 
     try {
+
         const user = await Teacher.findOne({ teacherEmail: teacherEmail });
 
         if (!user) {
-            return res.status(400).json(new ApiError(400, 'Invalid email or password'));
+            return res
+            .status(400)
+            .json(new ApiError(400, 'Invalid email or password'));
+
         }
 
         if (teacherFullName) {
@@ -46,12 +50,22 @@ const teacherUpdate = asyncHandler(async (req, res) => {
         }
         if (qualifications){
             user.teacherQualifications = qualifications;
-        } await user.save();
+        } 
+        
+        await user.save();
 
-        return res.status(200).json(new ApiResponse(200, 'Teacher profile updated successfully', user));
-    } catch (error) {
-        return res.status(500).json(new ApiError(500, error.message));
+        return res
+        .status(200)
+        .json(new ApiResponse(200, 'Teacher profile updated successfully', user));
+
+    } 
+    catch (error) {
+        return res
+        .status(500)
+        .json(new ApiError(500, error.message));
+
     }
+
 });
 
 const getTeacherProfile = asyncHandler(async (req, res) => {
@@ -70,12 +84,24 @@ const getTeacherProfile = asyncHandler(async (req, res) => {
 const getTeacherCourses = asyncHandler(async (req, res) => {
     const { teacherEmail } = req.user;
 
+    console.log("teacherEmail => "+teacherEmail);
+
     try {
         const teacher = await Teacher.findOne({ teacherEmail });
 
-        const myCources = await Course.findOne({ teacherEmail: teacherEmail });
+        
 
-        return res.status(200).json(new ApiResponse(200, 'Teacher courses fetched successfully', myCources));
+        const myCourses = await Course.find({ courseTeacher: teacherEmail });
+
+
+        
+
+        console.log(" teacher courses => "+myCourses);
+
+        return res
+        .status(200)
+        .json(new ApiResponse(200, 'Teacher courses fetched successfully', myCourses));
+
     } catch (error) {
         console.log(error);
         throw new ApiError(500, error.message);

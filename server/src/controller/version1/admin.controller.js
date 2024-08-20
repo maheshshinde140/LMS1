@@ -94,6 +94,7 @@ const createTeacher = asyncHandler(async (req, res) => {
 
         // check if student email in collection
         const user = await Student.findOne({ studentEmail }).select('+studentPassword');
+        
         if (!user) {
             return res.json(new ApiError(400, 'Student with this email is not exist'));
         }
@@ -133,8 +134,11 @@ const createTeacher = asyncHandler(async (req, res) => {
             teacherQualifications: qualifications,
             teacherYearOfExperience: yof,
             teacherbio: bio,
+            teacherCourseCode: []
             
         });
+
+
 
         /// delete a entry in the student collection
         const deleteStudent = await Student.findByIdAndDelete(user._id);

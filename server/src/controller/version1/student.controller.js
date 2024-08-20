@@ -153,6 +153,7 @@ const getStudentProfile = asyncHandler(async (req, res) => {
 });
 
 const getMyCourses = asyncHandler(async (req, res, next) => {
+    
     const { studentEmail } = req.user;
 
     try {

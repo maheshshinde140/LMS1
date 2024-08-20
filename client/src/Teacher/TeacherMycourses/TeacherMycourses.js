@@ -26,7 +26,9 @@ function TeacherMycourses() {
   const fetchmycourses = async () => {
     
     try {
-        const response = await axios.get('/api/course/showAllCourses')
+        const response = await axios.get('/api/teacher/getMyCourses');
+
+        console.log("response =>", response);
 
         console.log("Get All My Courses",response.data);
 
@@ -38,7 +40,8 @@ function TeacherMycourses() {
 
     }
     catch (error){
-      console.log(error)
+      
+      console.log(error);
     }
   }
   useEffect(() => {

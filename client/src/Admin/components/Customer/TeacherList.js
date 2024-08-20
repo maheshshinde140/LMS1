@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import TeacherDetails from "./TeacherDetails/TeacherDetails";
 
+
 const inputClass =
   "w-full px-4 py-2 border border-zinc-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500";
 const buttonClass = "px-3 py-1 border rounded-md";
@@ -165,8 +166,19 @@ const TeacherList = () => {
         >
           close
         </button>
-        {/* <TeacherRegistrationForm/> */}
+
+
+        <input type="text" placeholder="studentEmail" />
+        <input type="text" placeholder="studentPassword" />
+
+
+
+
+
+
+        {/* <TeacherRegistrationForm /> */}
       </dialog>
+
       <dialog
         ref={teacherDetailsRef}
         className="w-[900px] absolute top-10 mx-auto z-100 rounded-lg p-4 border border-black"
