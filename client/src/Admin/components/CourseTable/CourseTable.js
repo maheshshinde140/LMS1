@@ -80,6 +80,7 @@ const CourseTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearchChange = (event) => {
+    
     setSearchTerm(event.target.value);
     setFilteredProducts(
       getCourse.filter((product) =>
@@ -119,63 +120,70 @@ const CourseTable = () => {
           ))}
         </div>
 
-        {showOverview && (
-          <div className="mt-4 p-4 border border-gray-200 rounded shadow-md shadow-gray-600 bg-gray-50">
-            <h3 className="text-lg text-center font-semibold">
-              Course Overview
-            </h3>
+        <div>
 
-            <header className="flex flex-col md:flex-row justify-center items-start md:justify-around lg:justify-around xl:items-start">
-              <main className="flex rounded p-4 flex-col justify-between items-start ">
-                <img
-                  src={`${selectedProduct.courseThumbnail.private_url}`}
-                  alt="Course"
-                  className="w-full mb-4 h-40 object-cover"
-                />
+          {showOverview && (
+            <div className="mt-4 p-4 border border-gray-200 rounded shadow-md shadow-gray-600 bg-gray-50">
+              <h3 className="text-lg text-center font-semibold">
+                Course Overview
 
-                <h3 className="text-xl font-semibold mb-2">
-                  {selectedProduct.courseName}
-                </h3>
-                <p>
-                  <strong>Course Code:</strong>
-                  {selectedProduct.courseCode}
-                </p>
+                <span className="absolute top-0 right-0 p-2 text-gray-400 bg-gray-100 rounded-full cursor-pointer" onClick={() => setShowOverview(false)}> x </span>
+              </h3>
 
-                <p>
-                  <strong>Price:</strong>
-                  {selectedProduct.coursePrice}
-                </p>
-                <p>
-                  <strong>Duration:</strong>
-                  {selectedProduct.courseDuration}
-                </p>
+              <header className="flex flex-col md:flex-row justify-center items-start md:justify-around lg:justify-around xl:items-start">
+                <main className="flex rounded p-4 flex-col justify-between items-start ">
+                  <img
+                    src={`${selectedProduct.courseThumbnail.private_url}`}
+                    alt="Course"
+                    className="w-full mb-4 h-40 object-cover"
+                  />
 
-                <div className="flex flex-col justify-between w-full">
-                  <p className="">
-                    <strong>Start Date:</strong>{" "}
-                    {selectedProduct.courseStartDate.slice(0, 7)}
+                  <h3 className="text-xl font-semibold mb-2">
+                    {selectedProduct.courseName}
+                  </h3>
+                  <p>
+                    <strong>Course Code:</strong>
+                    {selectedProduct.courseCode}
+                  </p>
+
+                  <p>
+                    <strong>Price:</strong>
+                    {selectedProduct.coursePrice}
                   </p>
                   <p>
-                    <strong>End Date:</strong>{" "}
-                    {selectedProduct.courseEndDate.slice(0, 7)}
+                    <strong>Duration:</strong>
+                    {selectedProduct.courseDuration}
                   </p>
-                </div>
-              </main>
 
-              {/***  Course teachers  ***/}
-              <main className="flex rounded p-4 flex-col py-12 justify-between items-center shadow-xl shadow-gray-600">
-                <h3 className="text-lg text-center font-semibold">
-                  Course Teachers
-                </h3>
-                {selectedProduct?.courseTeacher?.map((teacher) => {
-                  return <p>{teacher}</p>;
-                })}
-              </main>
-            </header>
+                  <div className="flex flex-col justify-between w-full">
+                    <p className="">
+                      <strong>Start Date:</strong>{" "}
+                      {selectedProduct.courseStartDate.slice(0, 7)}
+                    </p>
+                    <p>
+                      <strong>End Date:</strong>{" "}
+                      {selectedProduct.courseEndDate.slice(0, 7)}
+                    </p>
+                  </div>
+                </main>
 
-            <OrdersTable />
-          </div>
-        )}
+                {/***  Course teachers  ***/}
+                <main className="flex rounded p-4 flex-col py-12 justify-between items-center shadow-xl shadow-gray-600">
+                  <h3 className="text-lg text-center font-semibold">
+                    Course Teachers
+                  </h3>
+                  {selectedProduct?.courseTeacher?.map((teacher) => {
+                    return <p>{teacher}</p>;
+                  })}
+                </main>
+              </header>
+
+              <OrdersTable />
+            </div>
+          )}
+
+        </div>
+
       </div>
     </div>
   );

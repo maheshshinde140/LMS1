@@ -14,6 +14,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [error, setError] = useState("");
+
   // submit the login form to the backend
 
   const handleLogin = async (e) => {

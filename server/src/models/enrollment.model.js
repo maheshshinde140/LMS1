@@ -10,7 +10,8 @@ const enrollmentSchema = new Schema({
     },
 
     studentCourses: [{
-        type: String
+        type: String,
+        required: true
     }]
 
 },{timestamps: true})

@@ -116,7 +116,7 @@ const createTeacher = asyncHandler(async (req, res) => {
             return res.json(new ApiResponse(400, "teacher already created by this email you can't create teacher "));
         }
         
-        const uploadDoc = await documentUpload(req.file.path);
+        // const uploadDoc = await documentUpload(req.file.path);
 
         /// create a entry in admin collection
         console.log(res);
@@ -133,7 +133,7 @@ const createTeacher = asyncHandler(async (req, res) => {
             teacherQualifications: qualifications,
             teacherYearOfExperience: yof,
             teacherbio: bio,
-            teacherAadharUrl:uploadDoc
+            
         });
 
         /// delete a entry in the student collection

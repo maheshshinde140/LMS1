@@ -8,6 +8,7 @@ import ApiResponse from "../../utils/apiResponse.js";
 import crypto from "crypto";
 import { clientUrl } from "../../../app.js";
 import { Enrollment } from "../../models/enrollment.model.js";
+import { log } from "console";
 
 
 const createPaymentForCourse = asyncHandler(async (req, res) => {
@@ -86,7 +87,7 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
         }
 
 
-
+        console.log("after verification of payement => ",verified);
 
         const student = await Student.findOne({ studentEmail });
 
@@ -94,15 +95,18 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
             return res.status(400).json(new ApiError(400, "Student not found"));
         }
 
+        console.log("after verification of student => ",student);
+
 
         const checkCourse = await Course.findOne({ courseCode: courseCode });
 
-        console.log(checkCourse);
-
+        
+ 
         if(!checkCourse){
             return res.status(400).json(new ApiError(400, "Course not found"));
         }
 
+        console.log("after verification of course => ",checkCourse);
 
 
         const enrolled = await Enrollment.findOne({studentEmail})
@@ -116,9 +120,9 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
             const enroll = await Enrollment.create({
 
                 studentEmail,
-                studentCourses: [{
+                studentCourses: [
                     courseCode
-                }]
+                ]
     
             })
 
@@ -148,7 +152,7 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
 
        return res
            .status(200)
-           .redirect(`http://localhost:3000/payment/${payment.id}`);
+           .redirect(`http://localhost:3000`);
            
     } 
 

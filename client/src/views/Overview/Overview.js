@@ -84,7 +84,7 @@ function Overview() {
 
   const { courseCode } = useParams();
 
-  const type = useSelector((state) => state.user.type);
+  const type = useSelector((state) => state.user.user);
 
   console.log("type => ", type);
 
@@ -202,16 +202,21 @@ function Overview() {
                 </span>
               </p>
 
+
               <button
                 onClick={
+                  
                   type === "student"
                     ? () => checkoutHandler(category.coursePrice, courseCode)
                     : navigate("/login")
+
+
                 }
                 className="mt-8 p-4 bg-cyan-500 rounded hover:bg-cyan-850 font-bold text-2xl mb-5"
               >
                 Buy Now - Start Learning
               </button>
+
 
               <p className="text-base sm:text-2xl font-semibold mt-2">
                 {category.courseDescription}
