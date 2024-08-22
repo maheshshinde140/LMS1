@@ -22,8 +22,12 @@ const UploadVideo = () => {
     teacherMail: "",
   });
 
+  const [file, setfile] = useState();
+
   const [filterDuration, setFilterDuration] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const { courseCode } = useParams();
 
   const handleInputChange = (e) => {
@@ -31,39 +35,53 @@ const UploadVideo = () => {
     setNewVideo({ ...newVideo, [name]: value });
   };
 
+  const handleFile = (e) => {
+    setfile(e.target.files[0]);
+  };
   const handleVideoUpload = async (e) => {
-    const file = e.target.files[0];
     if (!file) return;
 
-    const videoUrl = URL.createObjectURL(file);
-    const video = document.createElement("video");
+    // const videoUrl = URL.createObjectURL(file);
+    // const video = document.createElement("video");
 
-    video.preload = "metadata";
-    video.onloadedmetadata = () => {
-      window.URL.revokeObjectURL(videoUrl);
-      const duration = Math.floor(video.duration);
-      const minutes = Math.floor(duration / 60);
-      const seconds = duration % 60;
-      setNewVideo({
-        ...newVideo,
-        video: videoUrl,
-        duration: `${minutes}m ${seconds}s`,
-      });
-    };
-    video.src = videoUrl;
+    // video.preload = "metadata";
+    // video.onloadedmetadata = () => {
+    //   window.URL.revokeObjectURL(videoUrl);
+    //   const duration = Math.floor(video.duration);
+    //   const minutes = Math.floor(duration / 60);
+    //   const seconds = duration % 60;
+    //   setNewVideo({
+    //     ...newVideo,
+    //     video: videoUrl,
+    //     duration: `${minutes}m ${seconds}s`,
+    //   });
+    // };
+    // video.src = videoUrl;
     const response = await axios.post(
       `/api/course/uploadLectures?courseCode=${courseCode}`
     );
     seteSignedUrl(response.data.signedurl);
     console.log("response 1=>", response);
-    const resposne2 = await axios.put(response.data.signedurl, video, {
+
+    const formData = new FormData();
+    formData.append("file", file);
+    const resposne2 = await axios.put(response.data.signedurl, formData, {
       headers: {
         "Content-Type": "video/mp4",
         "Access-Control-Allow-Origin":
           "videostreaming31.s3.eu-north-1.amazonaws.com",
         "Access-Control-Allow-Credentials": true,
       },
+      onUploadProgress: (progressEvent) => {
+        const percentCompleted = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        setUploadProgress(percentCompleted);
+      },
     });
+
+    setUploading(false);
+
     console.log("response 2=>", resposne2);
   };
 
@@ -82,7 +100,6 @@ const UploadVideo = () => {
     //       duration: `${minutes}m ${seconds}s`,
     //     });
 
-
     let data = new FormData();
 
     try {
@@ -90,7 +107,6 @@ const UploadVideo = () => {
       const response = await axios.post(
         `/api/course/uploadLectures?courseCode=${courseCode}`
       );
-
 
       const signedUrl = response.data.signedurl;
       seteSignedUrl(signedUrl);
@@ -116,7 +132,6 @@ const UploadVideo = () => {
         },
       });
 
-
       console.log(res.data);
 
       // Upload video to S3 using pre-signed URL
@@ -129,12 +144,9 @@ const UploadVideo = () => {
       //   transformRequest: [(data) => data],
       // });
       // console.log("response 2=>", response2);
-    } 
-    
-    catch (error) {
+    } catch (error) {
       console.error("Error uploading video:", error);
     }
-
   }
 
   // video.src = videoUrl;
@@ -163,7 +175,6 @@ const UploadVideo = () => {
     };
 
     try {
-      
       const response = await axios.post(
         `/api/course/uploadLectures?courseCode=${courseCode}`
       );
@@ -174,8 +185,6 @@ const UploadVideo = () => {
     }
   };
 
-
-  
   const filterVideosByDuration = (duration) => {
     setFilterDuration(duration);
   };
@@ -275,20 +284,28 @@ const UploadVideo = () => {
             </span>
             <form className="upload-form" onSubmit={(e) => e.preventDefault()}>
               <h2>Upload Video</h2>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Video *</label>
+              <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+                <div className="mb-4">
+                  <label
+                    htmlFor="file-upload"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Choose a file
+                  </label>
                   <input
+                    id="file-upload"
                     type="file"
-                    name="lecture"
-                    onChange={(e) => uploadVideo(e.target.files[0])}
-                    accept="video/*"
-                    required
+                    onChange={handleFile}
+                    className="block w-full text-sm text-gray-500
+            file:mr-4 file:py-2 file:px-4
+            file:rounded-full file:border-0
+            file:text-sm file:font-semibold
+            file:bg-blue-50 file:text-blue-700
+            hover:file:bg-blue-100"
                   />
                 </div>
                 <div className="form-group">
-                  <label>Lecture Name *</label>
+                  <label className="text-gray-800">Lecture Name *</label>
                   <input
                     type="text"
                     name="lectureName"
@@ -298,19 +315,42 @@ const UploadVideo = () => {
                     required
                   />
                 </div>
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Lecture Description *</label>
+                <div className="form-group my-4">
+                  <label className="text-gray-800">Lecture Description *</label>
                   <textarea
                     name="lectureDescription"
                     value={newVideo.lectureDescription}
                     onChange={handleInputChange}
                     placeholder="Lecture Description"
                     required
+                    className="p-1 text-black"
                   ></textarea>
                 </div>
+                <button
+                  onClick={handleVideoUpload}
+                  disabled={!file || uploading}
+                  className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:opacity-50"
+                >
+                  {uploading ? "Uploading..." : "Upload"}
+                </button>
+                {uploading && (
+                  <div className="mt-4">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-medium text-blue-700">
+                        Uploading...
+                      </span>
+                      <span className="text-sm font-medium text-blue-700">
+                        {uploadProgress}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                      <div
+                        className="bg-blue-600 h-2.5 rounded-full"
+                        style={{ width: `${uploadProgress}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/****
@@ -330,14 +370,6 @@ const UploadVideo = () => {
               </div>
 
  */}
-
-              <button
-                type="submit"
-                onClick={() => handleVideoUpload}
-                className="submit-btn"
-              >
-                Upload
-              </button>
             </form>
           </div>
         </div>
