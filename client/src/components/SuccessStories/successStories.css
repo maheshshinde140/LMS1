@@ -8,10 +8,14 @@
    }
  }
  
- .animate-attach {
-   display: flex;
-   width: 100%;
-   gap: 8rem;
-   animation: horizontal 40s linear infinite;
- }
+
+.animate-attach {
+  display: flex;
+
+  
+  gap: 3rem;
+  animation: horizontal 40s linear infinite;
+}
+
+
    

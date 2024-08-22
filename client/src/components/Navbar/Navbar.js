@@ -28,6 +28,8 @@ function Navbar() {
 
   const teacher = user === "teacher"; 
 
+  
+
   const navigation = [
     { name: "Dashboard", href: "/dashboard", current: true, isAuth: isAdmin },
     { name: "Home", href: "/", current: false, isAuth: true },
@@ -48,23 +50,43 @@ function Navbar() {
   
   return (
     <Disclosure as="nav" className="bg-gray-800">
+
       {({ open }) => (
+
         <>
           <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
             <div className="relative flex h-24 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
 
-                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                  <span className="sr-only">Open main menu</span>
-                  {open ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </Disclosure.Button>
+
+                {
+                  mediumDevice ? 
+                  <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                    <span className="sr-only">Open main menu</span>
+             
+                    
+                    {open ? (
+  
+                      <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+  
+                    ) : (
+  
+                      <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+  
+                    )}
+                
+                  </Disclosure.Button>
+
+                  :
+                  <div></div>
+                }
+
+
 
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+
+
+              <div className="flex flex-1 items-center justify-center ml-6 pl-4 sm:items-stretch sm:justify-start">
                 <div className="flex flex-col items-center mr-48">
                   <p className="text-4xl font-bold text-white">Arohi Software</p>
                 </div>
