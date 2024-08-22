@@ -4,13 +4,21 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/User/userSlice";
-import axios from "axios";
+import { useMediaQuery } from '@mui/material';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 function Navbar() {
+
+
+  
+  
+
+
+  const mediumDevice = useMediaQuery('(max-width: 768px)');
+
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.user.isAuthenticated);
   const user = useSelector((state) => state.user.user);
@@ -18,13 +26,13 @@ function Navbar() {
   const isAdmin = user?.userType === "admin" ? true : false;
 
 
-  const student = user === "studentType"; 
+  const teacher = user === "teacher"; 
 
   const navigation = [
     { name: "Dashboard", href: "/dashboard", current: true, isAuth: isAdmin },
     { name: "Home", href: "/", current: false, isAuth: true },
     { name: "Courses", href: "/courses", current: false, isAuth: true },
-    { name: "My Courses", href: "/mycourses", current: false, isAuth: isAuth },
+    // { name: "My Courses", href: "/mycourses", current: false, isAuth: isAuth },
     { name: "Notes", href: "#", current: false, isAuth: isAuth },
     { name: "Blog", href: "#", current: false, isAuth: true },
     { name: "Login", href: "/login", current: false, isAuth: !isAuth },
@@ -37,6 +45,7 @@ function Navbar() {
     dispatch(logout());
   };
 
+  
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -60,7 +69,7 @@ function Navbar() {
                   <p className="text-4xl font-bold text-white">Arohi Software</p>
                 </div>
 
-                <div className="hidden flex sm:ml-6 sm:block">
+                <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <Link
@@ -117,12 +126,16 @@ function Navbar() {
                     leaveTo="transform opacity-0 scale-95"
                   >
 
-                 
+                    {user
+                       ? 
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      
+                     
+                    
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                          to={student ? "/teacherprofile" : "/student/profile"}
+                          to={teacher ? "/teacherprofile" : "/student/profile"}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-lg text-gray-700"
@@ -132,10 +145,11 @@ function Navbar() {
                           </Link>
                         )}
                       </Menu.Item>
+
                       <Menu.Item>
                         {({ active }) => (
                           <Link
-                            to={student ? "/teacher/mycourses" : "/student/mycourses"}
+                            to={teacher ? "/teacher/mycourses" : "/student/mycourses"}
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-lg text-gray-700"
@@ -160,6 +174,7 @@ function Navbar() {
                           </a>
                         )}
                       </Menu.Item>
+
                       <Menu.Item>
                         {({ active }) => (
                           <a
@@ -174,7 +189,25 @@ function Navbar() {
                           </a>
                         )}
                       </Menu.Item>
+
                     </Menu.Items>
+
+                    : 
+                    <div>
+                        <Link to="/login">
+                          <button className="bg-cyan-400 text-black font-bold p-2 rounded">
+                            Login
+                          </button>
+                        </Link>
+                        <Link to="/signup">
+                          <button className="bg-cyan-400 text-black font-bold p-2 rounded">
+                            Signup
+                          </button>
+                        </Link>
+                    
+                    </div>
+                  
+                  }
 
 
 
@@ -205,6 +238,8 @@ function Navbar() {
           </Disclosure.Panel>
         </>
       )}
+
+
     </Disclosure>
   );
 }

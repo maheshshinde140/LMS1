@@ -2,7 +2,7 @@ import express from 'express';
 
 const courseRouter = express.Router();
 
-import { createCourse, deleteCourse, getCourseByCode, getCourses, updateCourse, uploadLectures } from '../controller/version1/course.controller.js';
+import { createCourse, deleteCourse, getCourseByCode, getCourses, sendSignedUrl, updateCourse, uploadLectures } from '../controller/version1/course.controller.js';
 import isAdminLogin from '../middlewares/admin.auth.js';
 import { upload } from '../middlewares/multer.middleware.js';
 import isTeacherLogin from '../middlewares/teacher.auth.js'
@@ -46,7 +46,14 @@ courseRouter.route('/getCourses').get(
 
 courseRouter.route('/getCourseByCode').get(
     
-    isAdminLogin,
+    
+    upload.none(),
+    getCourseByCode
+)
+
+
+courseRouter.route('/getCourseByCode/:courseCode').get(
+    
     upload.none(),
     getCourseByCode
 )
@@ -64,15 +71,17 @@ courseRouter.route('/showAllCourses').get(
 
 
 
-
-
+// courseRouter.route(`/uploadLectures`).post(
+    
+//     isTeacherLogin,
+//     upload.single('lecture'),
+//     uploadLectures
+    
+// )
 
 courseRouter.route(`/uploadLectures`).post(
-    
     isTeacherLogin,
-    upload.single('lecture'),
-    uploadLectures
-    
+    sendSignedUrl
 )
 
 

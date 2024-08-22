@@ -1,26 +1,105 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Outlet,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
 import { Provider } from "react-redux";
-import {store,persistor} from "./store/store";
+import { store, persistor } from "./store/store";
 import { ToastContainer } from "react-toastify";
 import { PersistGate } from "redux-persist/integration/react";
+import Home from "./views/Home/Home";
+import Coursespage from "./views/Coursespage/Coursespage";
+import Overview from "./views/Overview/Overview";
+import Signup from "./Signup/Signup";
+import Login from "./Login/Login";
+import ViewLecture from "./Common/ViewLecture/ViewLecture";
+import ProtectedRoutes from "./Provider/ProtectedRoutes";
+import { ProtectedAdminRoute } from "./Provider/ProtectecAdminRoutes";
+import ProtectedTeacherRoutes from "./Provider/ProtectedTecherRoutes"
+import AdminDashboard from "./Admin/components/Dashboard/Dashboard";
 
+import CreateCourse from "./Admin/CreateCourse/CreateCourse";
+import TeacherList from "./Admin/components/Customer/TeacherList";
+import CourseTable from "./Admin/components/CourseTable/CourseTable";
+
+
+import UpdateCourse from "./Admin/UpdateCourse/UpdateCourse";
+import YourProfile from "./Student/YourProfile/YourProfile";
+import MyCourses from "./Student/MyCourses/MyCourses";
+import UploadVideo from "./Teacher/UploadVideo/UploadVideo";
+import TeacherProfile from "./Teacher/YourProfile/teacherProfile";
+import TeacherMycourses from "./Teacher/TeacherMycourses/TeacherMycourses";
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:5000",
+});
+
+
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Outlet />}>
+      <Route path="/" element={<Home />} />
+      <Route path="courses" element={<Coursespage />} />
+      <Route path="overview/:courseCode" element={<Overview />} />
+
+      <Route path="signup" element={<Signup />} />
+      <Route path="login" element={<Login />} />
+
+      <Route path={`viewLecture`} element={<ViewLecture />} />
+      <Route path={`viewLecture/:id`} element={<ViewLecture />} />
+      <Route element={<ProtectedAdminRoute />}>
+        {/* <AdminNavbar /> */}
+        {/* <Route path="/admin" element={<AdminRoute/>}/> */}
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/teachers" element={<TeacherList />} />
+
+        <Route path="/admin/courses" element={<CourseTable />} />
+        <Route path="/admin/viewLectures" element={<ViewLecture />} />
+
+        <Route path="/createCourse" element={<CreateCourse />} />
+        <Route path="/admin/updateCourse" element={<UpdateCourse />} />
+      </Route>
+      <Route element={<ProtectedRoutes />}>
+        <Route path="/student/profile" element={<YourProfile />} />
+        <Route path="/student/mycourses" element={<MyCourses />} />
+        <Route
+          path={`/student/viewlecture/:courseCode`}
+          element={<ViewLecture />}
+        />
+      </Route>
+      <Route element={<ProtectedTeacherRoutes />}>
+        <Route path="/uploadvideo" element={<UploadVideo />} />
+        <Route path={"/uploadvideo/:courseCode"} element={<UploadVideo />} />
+        <Route path="/teacherProfile" element={<TeacherProfile />} />
+
+        <Route path="/teacher/Mycourses" element={<TeacherMycourses />} />
+        <Route path="/teacher/ViewLecture" element={<ViewLecture />} />
+        <Route
+          path={`/teacher/ViewLecture/:courseCode`}
+          element={<ViewLecture />}
+        />
+      </Route>
+    </Route>
+  )
+);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-
-      <Provider store={store}>
-       <PersistGate loading={null} persistor={persistor}>
-         <App />
-       </PersistGate>
-        <ToastContainer/>
-      </Provider>
-
-  </BrowserRouter>
+  <React.StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
+      <ToastContainer />
+    </Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

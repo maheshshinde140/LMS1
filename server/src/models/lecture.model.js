@@ -5,6 +5,11 @@ const LectureSchema = new Schema({
 	lectureName: {
 		type: String,
 	},
+
+    lectureCode: {
+        type: String,
+        
+    },
 	
     courseCode: {
         type: String,
@@ -34,7 +39,7 @@ const LectureSchema = new Schema({
         type: Number,
     },
 
-    teacherMail: {
+    teacherEmail: {
         type: String,
         default: '',
     },

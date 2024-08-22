@@ -20,7 +20,7 @@ adminRouter.route('/createAdmin').post(
 
 adminRouter.route('/createTeacher').post(
     isAdminLogin,
-    upload.none(),
+    upload.single('documents'),
     createTeacher
 )
 
