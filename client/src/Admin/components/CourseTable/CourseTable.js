@@ -178,7 +178,7 @@ const CourseTable = () => {
                 </main>
               </header>
 
-              <OrdersTable />
+              <OrdersTable  courseCode={selectedProduct.courseCode}/>
             </div>
           )}
 

@@ -6,28 +6,21 @@ import axios from "axios";
 import Navbar from "../../components/Navbar/Navbar";
 
 const YourProfile = () => {
-
   const loginUser = "student";
 
   const [profile, setProfile] = useState({
-
-    studentFullName: "Anuruddh Singh",
-    studentEmail: "anuruddh7234@gmail.com",
-    studentPhoneNumber: "8795734013",
-    studentGender: "Male",
-    studentAge: "20",
-    studentAddress: "Lucknow, Uttar Pradesh",
+    studentFullName: "",
+    studentEmail: "",
+    studentPhoneNumber: "",
+    studentGender: "",
+    studentAge: "",
+    studentAddress: "",
     studentAvatar: "",
-    studentUserName: "Anuruddh Singh",
-
+    studentUserName: "",
   });
 
-  
-
   const handleSubmit = async () => {
-
     const formData = new FormData();
-
 
     formData.append("studentFullName", profile.studentFullName);
     formData.append("studentEmail", profile.studentEmail);
@@ -41,24 +34,19 @@ const YourProfile = () => {
     console.log("formData =>", formData);
 
     const config = {
-
       headers: {
-        "content": "multipart/form-data",
-  
+        content: "multipart/form-data",
       },
 
-      withCredentials: true,   /// this is for reading the cookie from the server side
-    }
+      withCredentials: true, /// this is for reading the cookie from the server side
+    };
 
     const response = await axios.put(`/api/student/update`, formData, config);
 
     console.log("response =>", response);
-
-
   };
 
   const fetchProfile = async () => {
-
     try {
       const response = await axios.get(`/api/student/getProfile`);
       console.log("get all courses response=>", response);
@@ -66,64 +54,48 @@ const YourProfile = () => {
       console.log("response.data.data =>", response.data.data);
 
       setProfile(response.data.data);
-
-    } 
-    catch (error) {
+    } catch (error) {
       console.log(error);
-      window.location.href="/login";
+      window.location.href = "/login";
     }
   };
 
-
-  const handleAvatarChange = async(e) => {
+  const handleAvatarChange = async (e) => {
     const file = e.target.files[0];
 
-    if(!file) return;
-    
-      const reader = new FileReader();
-        reader.onloadend = () => {
-          setProfile((prevProfile) => ({
-            ...prevProfile,
-            studentAvatar: reader.result,
-          }));
-        };
-        reader.readAsDataURL(file);
-      
-      const formData = new FormData();
-      formData.append("studentAvatar", file);
+    if (!file) return;
 
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        studentAvatar: reader.result,
+      }));
+    };
+    reader.readAsDataURL(file);
 
-      const config = {
-        headers: {
-          "content": "multipart/form-data",
-        },
-        withCredentials: true,   /// this is for reading the cookie from the server side
-      }
+    const formData = new FormData();
+    formData.append("studentAvatar", file);
 
-      try {
+    const config = {
+      headers: {
+        content: "multipart/form-data",
+      },
+      withCredentials: true, /// this is for reading the cookie from the server side
+    };
 
-        
-
-      
-        const response = await axios.put(`/api/student/update`, formData, config);
-        console.log("response =>", response);
-        
-      } 
-      catch (error) {
-        console.log(error);
-        window.location.href="/login";
-      }
-
-
+    try {
+      const response = await axios.put(`/api/student/update`, formData, config);
+      console.log("response =>", response);
+    } catch (error) {
+      console.log(error);
+      window.location.href = "/login";
+    }
   };
 
   useEffect(() => {
     fetchProfile();
-
   }, []);
-
-
-
 
   return (
     <div className="maincontainer">
@@ -134,7 +106,9 @@ const YourProfile = () => {
             <div className="profile-header">
               <div className="avatar-container">
                 <Avatar
-                  src={profile.studentAvatar || profile.studentAvatar.public_url }
+                  src={
+                    profile?.studentAvatar || profile?.studentAvatar?.public_url
+                  }
                   alt="Profile"
                   className="avatar"
                   onClick={() => document.getElementById("avatarInput").click()}
@@ -148,14 +122,11 @@ const YourProfile = () => {
                   onChange={handleAvatarChange}
                 />
 
-                {
-                  profile.studentAvatar ? <div> uploading... </div> : null
-                }
+                {profile.studentAvatar ? <div> uploading... </div> : null}
               </div>
               <h2>My Profile</h2>
             </div>
 
-    
             <form className="profile-form" onSubmit={handleSubmit}>
               <div className="form-row">
                 <div className="form-group">
@@ -164,7 +135,12 @@ const YourProfile = () => {
                     type="text"
                     name="fullName"
                     value={profile.studentFullName}
-                    onChange={(e) => setProfile({ ...profile, studentFullName: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        studentFullName: e.target.value,
+                      })
+                    }
                   />
                 </div>
 
@@ -174,7 +150,9 @@ const YourProfile = () => {
                     type="email"
                     name="email"
                     value={profile.studentEmail}
-                    onChange={(e) => setProfile({ ...profile, studentEmail: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({ ...profile, studentEmail: e.target.value })
+                    }
                     disabled
                   />
                 </div>
@@ -187,7 +165,12 @@ const YourProfile = () => {
                     type="tel"
                     name="mobileNo"
                     value={profile.studentPhoneNumber}
-                    onChange={(e) => setProfile({ ...profile, studentPhoneNumber: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        studentPhoneNumber: e.target.value,
+                      })
+                    }
                   />
                 </div>
 
@@ -196,7 +179,9 @@ const YourProfile = () => {
                   <select
                     name="gender"
                     value={profile.studentGender}
-                    onChange={(e) => setProfile({ ...profile, studentGender: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({ ...profile, studentGender: e.target.value })
+                    }
                   >
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -212,7 +197,9 @@ const YourProfile = () => {
                     type="number"
                     name="age"
                     value={profile.studentAge}
-                    onChange={(e) => setProfile({...profile, studentAge: e.target.value})}
+                    onChange={(e) =>
+                      setProfile({ ...profile, studentAge: e.target.value })
+                    }
                   />
                 </div>
                 <div className="form-group">
@@ -231,7 +218,9 @@ const YourProfile = () => {
                     type="text"
                     name="address"
                     value={profile.studentAddress}
-                    onChange={(e) => setProfile({ ...profile, studentAddress: e.target.value })}
+                    onChange={(e) =>
+                      setProfile({ ...profile, studentAddress: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -239,7 +228,6 @@ const YourProfile = () => {
               <button type="submit" className="save-changes">
                 Save changes
               </button>
-
             </form>
           </div>
         </main>
