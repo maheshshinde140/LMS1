@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import { Lock } from "lucide-react";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const location = useLocation();
 
-  const queryParams = new URLSearchParams(location.search);
-  const token = queryParams.get("token");
+
+  const {token} = useParams();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setError("Passwords don't match");
     } else if (password.length < 4) {
-      await axios.post("/api/type/resetpassword", {
+      await axios.post(`/api/type/resetpassword`, {
         confirmPassword,
         token,
       });
