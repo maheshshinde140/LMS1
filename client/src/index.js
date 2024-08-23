@@ -36,6 +36,8 @@ import UploadVideo from "./Teacher/UploadVideo/UploadVideo";
 import TeacherProfile from "./Teacher/YourProfile/teacherProfile";
 import TeacherMycourses from "./Teacher/TeacherMycourses/TeacherMycourses";
 import axios from "axios";
+import ForgotPassword from "./Login/ForgetPassword";
+import ResetPassword from "./Login/ResetPassword";
 
 const api = axios.create({
   baseURL: "http://localhost:5000",
@@ -47,8 +49,11 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Outlet />}>
       <Route path="/" element={<Home />} />
+      <Route path="/forgot-password" element={<ForgotPassword/>}/>
+      <Route path="/resetpassword" element={<ResetPassword/>} />
       <Route path="courses" element={<Coursespage />} />
       <Route path="overview/:courseCode" element={<Overview />} />
+
 
       <Route path="signup" element={<Signup />} />
       <Route path="login" element={<Login />} />
