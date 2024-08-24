@@ -1,149 +1,157 @@
 import mongoose from 'mongoose';
 
-const CourseSchema = new mongoose.Schema({
+const CourseSchema = new mongoose.Schema(
+    {
+        adminEmail: {
+            type: String
+        },
 
-	adminEmail : {
+        studentEmail: [
+            {
+                type: String
+            }
+        ],
 
-		type: String
-	},
+        teacherEmail: [{
 
-	studentEmail : [{	
-		type: String
-	}],
+            type: String
+            
+        }],
 
-	teacherEmail : [{	
-		type: String
-	}],
+        courseName: {
+            type: String
+        },
 
-	courseName: {
-		type: String,
+        courseDescription: {
+            type: String
+        },
 
-	},
+        courseThumbnail: {
+            secure_url: {
+                type: String
+            },
+            public_id: {
+                type: String
+            }
+        },
 
-	courseDescription: {
-		type: String,
+        videoLink: [
+            {
+                public_id: {
+                    type: String
+                },
 
-	},
+                private_url: {
+                    type: String
+                }
+            }
+        ],
 
-	courseThumbnail: {
-		secure_url: {
-			type: String,
-		},
-		public_id :{
-			type: String,
-		},
-					
-	},
+        courseThumbnail: {
+            public_id: {
+                type: String
+            },
+            private_url: {
+                type: String
+            }
+        },
 
-	videoLink: [{
-		public_id :{
-			type: String,
-		},
+        coursePdf: [
+            {
+                public_id: {
+                    type: String
+                },
+                private_url: {
+                    type: String
+                }
+            }
+        ],
 
-		private_url: {
-			type: String,
-		}
-	}],
+        courseTests: [
+            {
+                public_id: {
+                    type: String
+                },
+                private_url: {
+                    type: String
+                }
+            }
+        ],
 
-	courseThumbnail:{
-		public_id :{
-			type: String,
-		},
-		private_url: {
+        coursePrice: {
+            type: Number
+        },
 
-			type: String,
+        courseCode: {
+            type: String,
+            required: true
+        },
 
-		}
-	}
-	
-,
-	coursePdf: [{
+        courseSubject: {
+            type: String
+        },
 
-		public_id :{
-			type: String,
-		},
-		private_url: {
+        courseTeacher: [
+            {
+                type: String
 
-			type: String,
+                // teacher: {
+                // 	type: mongoose.Schema.Types.ObjectId,
+                // 	ref: 'Teacher',
 
-		}
+                // },
 
-	}],
+                // teacherName: {
+                // 	type: String,
 
-	courseTests: [{
+                // },
 
-		public_id :{
-			type: String,
-		},
-		private_url: {
+                // teacherSubject:{
+                // 	type: String,
 
-			type: String,
+                // },
+                // teacherImage: {
+                // 	type: String,
+                // 	default: '',
 
-		}
+                // }
+            }
+        ],
 
-	}],
+        courseStartDate: {
+            type: Date
+        },
 
-	coursePrice: {
-		type: Number,
+        courseEndDate: {
+            type: Date
+        },
 
-	},
+        courseDuration: {
+            type: String
+        },
 
-	courseCode: {
-		type: String,
-		required: true,
-	},
+        courseTools: [
+            {
+                toolName: {
+                    type: String
+                },
+                toolImage: {
+                    type: String
+                }
+            }
+        ],
 
-	courseSubject: {
-		type: String,
+        courseTopics: [
+            {
+                courseTodos: [
+                    {
+                        type: String
+                    }
+                ]
+            }
+        ]
+    },
+    { timestamps: true }
+);
 
-	},
-
-	courseTeacher: [{
-
-		type: String,
-
-		// teacher: {
-		// 	type: mongoose.Schema.Types.ObjectId,
-		// 	ref: 'Teacher',
-
-		// },
-
-		// teacherName: {
-		// 	type: String,
-
-		// },
-
-		// teacherSubject:{
-		// 	type: String,
-	
-		// },
-		// teacherImage: {
-		// 	type: String,
-		// 	default: '',
-
-		// }
-
-		
-	}],
-
-
-	courseStartDate: {
-		type: Date,
-
-	},
-
-	courseEndDate: {
-		type: Date,
-
-	},
-
-	courseDuration: {
-		type: String,
-
-	},
-		
-
-
-}, {timestamps: true});
- 
-export const Course =  mongoose.model('Course', CourseSchema);  
+export const Course = mongoose.model('Course', CourseSchema);

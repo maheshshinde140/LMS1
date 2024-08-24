@@ -7,6 +7,8 @@ import { asyncHandler } from "../../utils/asyncHandler.js";
 import ApiResponse from "../../utils/apiResponse.js";
 import crypto from "crypto";
 import { clientUrl } from "../../../app.js";
+import { Enrollment } from "../../models/enrollment.model.js";
+import { log } from "console";
 
 
 const createPaymentForCourse = asyncHandler(async (req, res) => {
@@ -56,7 +58,7 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
     console.log(req.body);
 
     const { studentEmail } = req.user;
-    const {courseCode} = req.params;
+    const {courseCode} = req.params  || req.query;
     
 
     console.log("req.user => ",req.user);
@@ -84,8 +86,8 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
             return res.status(400).json(new ApiError(400, "Signature is not verified your session is expired"));
         }
 
-        const courseName = courseCode
 
+        console.log("after verification of payement => ",verified);
 
         const student = await Student.findOne({ studentEmail });
 
@@ -93,28 +95,54 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
             return res.status(400).json(new ApiError(400, "Student not found"));
         }
 
+        console.log("after verification of student => ",student);
 
-        const checkCourse = await Course.findOne({ courseCode: courseName });
 
-        console.log(checkCourse);
+        const checkCourse = await Course.findOne({ courseCode: courseCode });
 
+        
+ 
         if(!checkCourse){
             return res.status(400).json(new ApiError(400, "Course not found"));
         }
 
-        checkCourse.studentEmail.push(studentEmail);
+        console.log("after verification of course => ",checkCourse);
 
-        console.log(checkCourse);
+
+        const enrolled = await Enrollment.findOne({studentEmail})
+
+        if(enrolled) {
+
+            enrolled.studentCourses.push(checkCourse.courseCode);
+            await enrolled.save();
+        }
+        else {
+            const enroll = await Enrollment.create({
+
+                studentEmail,
+                studentCourses: [
+                    courseCode
+                ]
+    
+            })
+
+            console.log("enroll => ",enroll);
+            await enroll.save();
+
+    
+        }
+
+        console.log("enrolled => ", enrolled);
+
 
 
         const payment = await Payment.create({
-            studentMail : studentEmail,
+            studentEmail : studentEmail,
             courseCode,
             razorpay_order_id,
             razorpay_payment_id,
             transactionDate : Date.now(),
             razorpay_signature,
-            // amount,
             status : 'paid'
             
         })
@@ -124,7 +152,7 @@ const verifyPaymentForCourse = asyncHandler(async (req, res) => {
 
        return res
            .status(200)
-           .redirect(`http://localhost:3000`)
+           .redirect(`http://localhost:3000`);
            
     } 
 

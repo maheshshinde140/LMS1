@@ -1,4 +1,5 @@
 import React from 'react';
+import "./successStories.css"
 
 function SuccessStories() {
 
@@ -32,16 +33,19 @@ function SuccessStories() {
     }
   ]
 
+
+
   return (
-    <div className="min-h-screen p-10 mt-20">
+    <div className="min-h-screen w-[100%] p-10 mt-20">
       <h1 className="text-white text-6xl ml-20 font-bold mb-16">
         Success Stories
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 ml-20">
+      <div className="animate-attach flex w-[80rem] md:w-[105rem]">
         {story.map((course) => (
           <div
             key={course.id}
-            className=" bg-black text-white rounded-lg shadow-lg overflow-hidden"
+            className=" bg-black text-white rounded-lg   shadow-lg  "
+            style={{width: "30rem"}}
           >
             <div className="flex justify-center mt-5">
               <img

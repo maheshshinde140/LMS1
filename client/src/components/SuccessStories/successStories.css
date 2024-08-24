@@ -1,0 +1,21 @@
+@keyframes horizontal {
+   
+   0% {
+   transform: translateX(0);
+   }
+   100% {
+   transform: translateX(-50%);
+   }
+ }
+ 
+
+.animate-attach {
+  display: flex;
+
+  
+  gap: 3rem;
+  animation: horizontal 40s linear infinite;
+}
+
+
+   

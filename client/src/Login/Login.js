@@ -14,6 +14,8 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [error, setError] = useState("");
+
   // submit the login form to the backend
 
   const handleLogin = async (e) => {
@@ -34,35 +36,25 @@ function Login() {
     try {
       // api call to login the user
       const response = await axios.post("/api/type/login", body);
-      console.log(response.data);
       const result = response.data;
 
       toast.success(result.message);
-      
-      console.log(result);
 
-      console.log("result.data =>", result.data);
 
 
       /// if the login is successful, redirect the user to the home page
       if (result.success) {
-
-        if(result.data.teacherType){
+        if (result.data.teacherType) {
           dispatch(setUser(result.data.teacherType));
           navigate("/");
-        }
-        else if(result.data.studentType){
+        } else if (result.data.studentType) {
           dispatch(setUser(result.data.studentType));
           navigate("/");
-        }
-        else if(result.data.adminType){
+        } else if (result.data.adminType) {
           dispatch(setUser(result.data.adminType));
-          navigate("/admin");
+          navigate("/admin/dashboard");
         }
-
-        
-      } 
-      else {
+      } else {
         toast.error(result.message);
       }
     } catch (error) {
@@ -176,8 +168,6 @@ function Login() {
                 Login with Google
               </button>
             </div>
-
-
           </div>
         </div>
       </div>
